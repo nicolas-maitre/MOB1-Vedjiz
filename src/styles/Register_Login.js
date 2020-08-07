@@ -28,6 +28,9 @@ const styles = StyleSheet.create({
         fontSize: 15,
         paddingRight: 10,
         color: 'white',
+    },
+    btnEye: {
+        paddingLeft: 10,
     }
 });
 
