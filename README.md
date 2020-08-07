@@ -1,11 +1,11 @@
 # Requirements
 - access to [Vedjiz](https://github.com/XCarrel/vedjiz-desktop)
 - intall npm
-- intall expo-cli
-- android mobile or emulator
+- intall react-native-cli
+- Emulator android OS Q (x86_x64)
 - install [react-native](https://reactnative.dev/docs/environment-setup)
-- install expo app on your mobile
 
-# Setup
-On project, open cmd or a terminal and write `expo start`.  
-Open expo's app and write the url to access the application and wait 😘
+# Run project
+- Open two terminals on the root of project
+- On the first writte `npm i && react-native start`
+- On other write `react-native run-android`
