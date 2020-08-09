@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { Text, View, TextInput, TouchableOpacity, TouchableHighlight, Alert } from 'react-native';
 import Styles from '../src/styles/Register_Login';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {isEmpty} from './Helpers';
 export default class Login extends Component {
     constructor() {
-        super()
+        super();
         this.state = {
             showPassword: false,
-            tokken: null,
+            token: "",
             submitHover: false
-        }
+        };
     }
 
     showPassword() {
@@ -17,20 +18,20 @@ export default class Login extends Component {
     }
 
     login(data) {
-        Alert.alert(data)
+        Alert.alert("Token", data);
     }
 
     render() {
         return (
             <View style={Styles.container}>
                 <View style={Styles.inputGroups}>
-                    <Text style={Styles.label}>Tokken:</Text>
+                    <Text style={Styles.label}>Token:</Text>
                     <TextInput
                         style={Styles.textInput}
                         placeholderTextColor="rgb(180, 180, 180)"
                         placeholder="re5t40-89sdf7-v96dc5"
-                        value={this.state.tokken}
-                        onChangeText={value => this.setState({ tokken: value })}
+                        value={this.state.token}
+                        onChangeText={value => this.setState({ token: value })}
                         secureTextEntry={!this.state.showPassword} />
                     <TouchableOpacity
                         style={Styles.btnEye}
@@ -40,11 +41,16 @@ export default class Login extends Component {
                     </TouchableOpacity>
                 </View>
 
-                <View style={this.state.submitHover ? Styles.submitHover : Styles.submit}
-                    onTouchStart={() => { this.setState({ submitHover: true }), this.login(this.state.tokken) }}
+                <View
+                    pointerEvents={isEmpty(this.state.token) ? "none" : "auto"}
+                    style={this.state.submitHover ? Styles.submitHover : Styles.submit}
+                    onTouchStart={() => {
+                        this.setState({ submitHover: true }),
+                        this.login(this.state.token)
+                    }}
                     onTouchEnd={() => this.setState({ submitHover: false })}
                 >
-                    <Text style={Styles.label} >Se connecter</Text>
+                    <Text style={Styles.label}>Se connecter</Text>
                 </View>
             </View>
         )
