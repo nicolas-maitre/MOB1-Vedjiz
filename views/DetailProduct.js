@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, ImageBackground, Image, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, ScrollView, ImageBackground, Image } from 'react-native';
+import Styles from "../src/styles/DetailProduct"
 
 export default class DetailProduct extends Component {
     constructor() {
@@ -15,35 +16,35 @@ export default class DetailProduct extends Component {
         return (
             <ImageBackground
                 source={require('../src/pictures/Moutains.jpg')}
-                style={styles.background}
+                style={Styles.background}
                 blurRadius={1}
             >
-                <View>
-                    <ScrollView>
-                        <Text>My product</Text>
-                        <Image source={{ uri: "my link" }}></Image>
-                        <Text>Price by quantity</Text>
-                        <Text>Stock</Text>
-                        <Text>Description of the product</Text>
-                        <View>
-                            <ScrollView>
-                                {/* {getProviders().map(provider => <Text>{provider}</Text>)} */}
-                                <Text>Provider One</Text>
-                                <Text>Provider Two</Text>
-                                <Text>Provider Three</Text>
+                <View style={Styles.detailProduct}>
+                        <View style={Styles.productBackground}>
+                            <Image source={{ uri: "http://192.168.1.103/storage/pictures/tomatoes.png" }} style={Styles.picture} />
+                            <Text style={Styles.title}>tomate coeur de boeuf</Text>
+                            <View style={Styles.details}>
+                                <Text>💰 2.3 CHF / pièce</Text>
+                                <Text>📦 26 disponibles(s)</Text>
+                            </View>
+                            <ScrollView style={Styles.description}>
+                                <Text style={Styles.descriptionText}>It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉 It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉 It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉</Text>
                             </ScrollView>
+                            <View style={Styles.providerGroup}>
+                                <Text style={Styles.providerTitle}>Fournisseur(s):</Text>
+                                <ScrollView style={Styles.providers}>                                
+                                    {/* {getProviders().map(provider => <Text>{provider}</Text>)} */}
+                                    <Text style={Styles.provider}>Provider One</Text>
+                                    <Text style={Styles.provider}>Provider Two</Text>
+                                    <Text style={Styles.provider}>Provider Three</Text>
+                                    <Text style={Styles.provider}>Provider Three</Text>
+                                    <Text style={Styles.provider}>Provider Three</Text>
+                                    <Text style={[Styles.provider, Styles.noBorders]}>Provider Three</Text>
+                                </ScrollView>
+                            </View>
                         </View>
-                    </ScrollView>
                 </View>
             </ImageBackground>
         )
     }
 }
-
-const styles = StyleSheet.create({
-    background: {
-        flex: 1,
-        width: null,
-        height: Dimensions.get('window').height,
-    },
-});
