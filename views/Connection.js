@@ -3,9 +3,9 @@ import { View, ScrollView, Dimensions, ImageBackground } from 'react-native';
 import Login from "../components/Login";
 import Register from "../components/Register";
 import HorizontalSeparation from "../components/HorizontalSeparation";
-import Styles from "../src/styles/HomePage";
+import Styles from "../src/styles/Connection";
 
-export default class Homepage extends Component {
+export default class Connection extends Component {
     render() {
         return (
             <ImageBackground
@@ -13,7 +13,6 @@ export default class Homepage extends Component {
                 style={Styles.background}
             >
                 <View>
-
                     <ScrollView>
                         <HorizontalSeparation title="Register" color="rgba(255, 255, 255, 0.7)" />
                         <Register />

@@ -3,6 +3,7 @@ import { Text, View, TextInput, TouchableOpacity, TouchableHighlight, Alert } fr
 import Styles from '../src/styles/Register_Login';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {isEmpty} from './Helpers';
+
 export default class Login extends Component {
     constructor() {
         super();
@@ -18,7 +19,7 @@ export default class Login extends Component {
     }
 
     login(data) {
-        Alert.alert("Token", data);
+        //signIn(data);
     }
 
     render() {
