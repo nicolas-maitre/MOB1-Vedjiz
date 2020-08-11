@@ -9,6 +9,8 @@ export default class ListOfProduct extends Component {
         }
     }
     render() {
+        
+      const { navigation } = this.props;
         return (
             <ImageBackground
                 source={require('../src/pictures/Moutains.jpg')}
@@ -17,12 +19,12 @@ export default class ListOfProduct extends Component {
             >
                 <View>
                     <ScrollView>
-                        <Product product={product} />
-                        <Product product={product1} />
-                        <Product product={product2} />
-                        <Product product={product} />
-                        <Product product={product1} />
-                        <Product product={product2} />
+                        <Product navigation={navigation} product={product} />
+                        <Product navigation={navigation} product={product1} />
+                        <Product navigation={navigation} product={product2} />
+                        <Product navigation={navigation} product={product} />
+                        <Product navigation={navigation} product={product1} />
+                        <Product navigation={navigation} product={product2} />
                     </ScrollView>
                 </View>
             </ImageBackground>
@@ -31,7 +33,7 @@ export default class ListOfProduct extends Component {
 }
 const product={
     name: "brocoli d'amérique",
-    details: "It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉",
+    details: "It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉,It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉,It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉",
     price: "2.3",
     unit: "pièce",
     stock: "26",
@@ -43,9 +45,9 @@ const product={
 const product1={
     name: "carrottes degueux",
     details: "It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉",
-    price: "2.3",
+    price: "3",
     unit: "pièce",
-    stock: "26",
+    stock: "12",
     picture: "carots.png",
     current: true,
     suppliers: ["diogo", "gabriel"],
@@ -54,9 +56,9 @@ const product1={
 const product2={
     name: "tomate coeur de boeuf",
     details: "It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉",
-    price: "2.3",
+    price: "6",
     unit: "pièce",
-    stock: "26",
+    stock: "540",
     picture: "tomatoes.png",
     current: true,
     suppliers: ["diogo", "gabriel"],

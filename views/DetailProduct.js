@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView, ImageBackground, Image } from 'react-native';
+import { View, Text, ScrollView, ImageBackground, Image, Alert } from 'react-native';
 import Styles from "../src/styles/DetailProduct"
 
 export default class DetailProduct extends Component {
-    constructor() {
-        super();
+    constructor({ route }) {
+        super();        
+        const { product }  = route.params;
+        this.state={
+            product: product,
+        }
     }
     addToMarket(product) {
         Alert.alert("Market", `${product.name} added to market`);
@@ -21,14 +25,13 @@ export default class DetailProduct extends Component {
             >
                 <View style={Styles.detailProduct}>
                         <View style={Styles.productBackground}>
-                            <Image source={{ uri: "http://192.168.1.103/storage/pictures/tomatoes.png" }} style={Styles.picture} />
-                            <Text style={Styles.title}>tomate coeur de boeuf</Text>
+                            <Image source={{ uri: `http://192.168.1.103/storage/pictures/${this.state.product.picture}` }} style={Styles.picture} />
                             <View style={Styles.details}>
-                                <Text>💰 2.3 CHF / pièce</Text>
-                                <Text>📦 26 disponibles(s)</Text>
+                                <Text>💰 {this.state.product.price} CHF / {this.state.product.unit}</Text>
+                                <Text>📦 {this.state.product.stock} disponibles(s)</Text>
                             </View>
                             <ScrollView style={Styles.description}>
-                                <Text style={Styles.descriptionText}>It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉 It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉 It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉</Text>
+                                <Text style={Styles.descriptionText}>{this.state.product.details}</Text>
                             </ScrollView>
                             <View style={Styles.providerGroup}>
                                 <Text style={Styles.providerTitle}>Fournisseur(s):</Text>

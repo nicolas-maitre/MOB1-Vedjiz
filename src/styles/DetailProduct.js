@@ -13,18 +13,9 @@ const styles = StyleSheet.create({
     productBackground: {
         marginTop: 20,
         width: Dimensions.get("window").width - 20,
-        height: Dimensions.get("window").height - 60,
+        height: Dimensions.get("window").height - 120,
         backgroundColor: "rgba(200, 200, 200, 0.8)",
         padding: 40
-    },
-    title: {
-        width: "100%",
-        textAlign: "center",
-        fontSize: 30,
-        textDecorationLine: "underline",
-        fontStyle: 'italic',
-        textTransform: "capitalize",
-        marginTop: 20,
     },
     picture: {
         width: "100%",
