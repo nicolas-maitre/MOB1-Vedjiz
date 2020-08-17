@@ -12,7 +12,7 @@ import Splash from './views/Splash';
 const AuthStack = createStackNavigator();
 const AuthStackScreen = () => (
     <AuthStack.Navigator>
-        <AuthStack.Screen name="Connexion" component={Connection} />
+        <AuthStack.Screen name="Connexion" component={Connection} options={{header: () => null}}/>
     </AuthStack.Navigator>
 );
 const ListOfProductsStack = createStackNavigator();
