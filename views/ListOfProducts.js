@@ -1,37 +1,29 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, ScrollView, ImageBackground, StyleSheet, Dimensions } from 'react-native';
 import Product from "../components/Product";
-export default class ListOfProduct extends Component {
-    constructor(){
-        super();
-        this.state={
-
-        }
-    }
-    render() {
-        
-      const { navigation } = this.props;
-        return (
-            <ImageBackground
-                source={require('../src/pictures/Moutains.jpg')}
-                style={styles.background}
-                blurRadius={1}
-            >
-                <View>
-                    <ScrollView>
-                        <Product navigation={navigation} product={product} />
-                        <Product navigation={navigation} product={product1} />
-                        <Product navigation={navigation} product={product2} />
-                        <Product navigation={navigation} product={product} />
-                        <Product navigation={navigation} product={product1} />
-                        <Product navigation={navigation} product={product2} />
-                    </ScrollView>
-                </View>
-            </ImageBackground>
-        )
-    }
+export default function ListOfProduct(props) {
+    const { navigation } = props;
+    return (
+        <ImageBackground
+            source={require('../src/pictures/Moutains.jpg')}
+            style={styles.background}
+            blurRadius={1}
+        >
+            <View>
+                <ScrollView>
+                    <Product navigation={navigation} product={product} />
+                    <Product navigation={navigation} product={product1} />
+                    <Product navigation={navigation} product={product2} />
+                    <Product navigation={navigation} product={product} />
+                    <Product navigation={navigation} product={product1} />
+                    <Product navigation={navigation} product={product2} />
+                </ScrollView>
+            </View>
+        </ImageBackground>
+    )
 }
-const product={
+
+const product = {
     name: "brocoli d'amérique",
     details: "It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉,It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉,It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉",
     price: "2.3",
@@ -42,7 +34,7 @@ const product={
     suppliers: ["diogo", "gabriel"],
     updatedAt: "08.08.2008 17:00:00.00",
 };
-const product1={
+const product1 = {
     name: "carrottes degueux",
     details: "It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉",
     price: "3",
@@ -53,7 +45,7 @@ const product1={
     suppliers: ["diogo", "gabriel"],
     updatedAt: "08.08.2008 17:00:00.00",
 };
-const product2={
+const product2 = {
     name: "tomate coeur de boeuf",
     details: "It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉",
     price: "6",

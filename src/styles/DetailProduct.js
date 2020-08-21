@@ -62,6 +62,19 @@ const styles = StyleSheet.create({
     },
     noBorders: {
         borderBottomColor: "transparent",
+    },
+    market: {
+        position: "absolute",
+        right: 20,
+        top: 20,
+        width: 40,
+        height: 40,
+        paddingTop: 7,
+        paddingLeft: 2,
+        borderRadius: 100,
+        overflow:"hidden",
+        backgroundColor: "rgb(109, 116, 220)",
+
     }
 });
 

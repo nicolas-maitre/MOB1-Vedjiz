@@ -1,4 +1,3 @@
-
 export function isEmpty() {
     var args = arguments;
     for (let index = 0; index < arguments.length; index++) {
