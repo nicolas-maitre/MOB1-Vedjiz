@@ -1,65 +1,86 @@
 import React, { Component } from 'react';
 import Styles from '../src/styles/Register_Login';
-import { Text, View, TextInput, Alert } from 'react-native';
-import {isEmpty} from './Helpers';
+import { Text, View, TextInput, Alert, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { isEmpty } from './Helpers';
+import { AuthContext } from './Context';
 
-export default class Register extends Component {
-    constructor() {
-        super();
-        this.state = {
-            firstname: null,
-            lastname: null,
-            phonenumber: null,
-            submitHover: false
-        };
+export default function Register() {
+
+    const [firstname, setFirstname] = React.useState(null);
+    const [lastname, setLastname] = React.useState(null);
+    const [phonenumber, setPhonenumber] = React.useState(null);
+    const [submitHover, setSubmitHover] = React.useState(false);
+    const {signUp} = React.useContext(AuthContext);
+
+    function register(firstname, lastname, phonenumber) {
+        signUp({firstname, lastname, phonenumber})
     }
 
-    register(firstname, lastname, phonenumber){        
-        Alert.alert("Your Informations", `Firstname: ${firstname}\nLastname: ${lastname}\nPhonenumber: ${phonenumber}`);
-    }
-
-    render() {
-        return (
-            <View style={Styles.container}>
-                <View style={Styles.inputGroups}>
-                    <Text style={Styles.label}>Prénom:</Text>
-                    <TextInput
-                        style={Styles.textInput}
-                        placeholderTextColor="rgb(180, 180, 180)"
-                        placeholder="Diogo"
-                        onChangeText={value => this.setState({ firstname: value })}/>
-
-                </View>
-                <View style={Styles.inputGroups}>
-                    <Text style={Styles.label}>Nom:</Text>
-                    <TextInput
-                        style={Styles.textInput}
-                        placeholderTextColor="rgb(180, 180, 180)"
-                        placeholder="Vieira" 
-                        onChangeText={value => this.setState({ lastname: value })}/>
-                </View>
-                <View style={Styles.inputGroups}>
-                    <Text style={Styles.label}>N°:</Text>
-                    <TextInput
-                        style={Styles.textInput}
-                        placeholder="Numéro de téléphone"
-                        placeholderTextColor="rgb(180, 180, 180)"
-                        keyboardType="phone-pad" 
-                        onChangeText={value => this.setState({ phonenumber: value })} />
-                </View>
-                
-                <View                 
-                pointerEvents={isEmpty(this.state.firstname, this.state.lastname, this.state.phonenumber) ? "none" : "auto"}
-                style={this.state.submitHover ? Styles.submitHover : Styles.submit}
-                    onTouchStart={() => { 
-                        this.setState({ submitHover: true }), 
-                        this.register(this.state.firstname, this.state.lastname, this.state.phonenumber)
-                    }}
-                    onTouchEnd={() => this.setState({ submitHover: false })}
+    return (
+        <View style={Styles.container}>
+            <View style={Styles.inputGroups}>
+                <Text style={Styles.label}>Prénom:</Text>
+                <TextInput
+                    style={Styles.textInput}
+                    value={firstname}
+                    placeholderTextColor="rgb(180, 180, 180)"
+                    placeholder="Diogo"
+                    onChangeText={setFirstname} />
+                {!isEmpty(firstname) &&
+                <TouchableOpacity
+                    style={Styles.btnEye}
+                    onPress={()=>setFirstname(null)}
                 >
-                    <Text style={Styles.label} >S'inscrire</Text>
-                </View>
+                    <Icon name={"close-outline"} size={26} color="white" />
+                </TouchableOpacity>}
+
             </View>
-        )
-    }
+            <View style={Styles.inputGroups}>
+                <Text style={Styles.label}>Nom:</Text>
+                <TextInput
+                    style={Styles.textInput}
+                    value={lastname}
+                    placeholderTextColor="rgb(180, 180, 180)"
+                    placeholder="Vieira"
+                    onChangeText={setLastname} />
+                {!isEmpty(lastname) &&
+                <TouchableOpacity
+                    style={Styles.btnEye}
+                    onPress={()=>setLastname(null)}
+                >
+                    <Icon name={"close-outline"} size={26} color="white" />
+                </TouchableOpacity>}
+            </View>
+            <View style={Styles.inputGroups}>
+                <Text style={Styles.label}>N°:</Text>
+                <TextInput
+                    style={Styles.textInput}
+                    value={phonenumber}
+                    placeholder="Numéro de téléphone"
+                    placeholderTextColor="rgb(180, 180, 180)"
+                    keyboardType="phone-pad"
+                    onChangeText={setPhonenumber} />
+                    {!isEmpty(phonenumber) &&
+                <TouchableOpacity
+                    style={Styles.btnEye}
+                    onPress={()=>setPhonenumber(null)}
+                >
+                    <Icon name={"close-outline"} size={26} color="white" />
+                </TouchableOpacity>}
+            </View>
+
+            <View
+                pointerEvents={isEmpty(firstname, lastname, phonenumber) ? "none" : "auto"}
+                style={submitHover ? Styles.submitHover : Styles.submit}
+                onTouchStart={() => {
+                    setSubmitHover(true),
+                    register(firstname, lastname, phonenumber)
+                }}
+                onTouchEnd={() => setSubmitHover(false)}
+            >
+                <Text style={Styles.label} >S'inscrire</Text>
+            </View>
+        </View>
+    )
 }
