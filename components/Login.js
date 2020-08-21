@@ -3,57 +3,52 @@ import { Text, View, TextInput, TouchableOpacity, TouchableHighlight, Alert } fr
 import Styles from '../src/styles/Register_Login';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {isEmpty} from './Helpers';
+import { AuthContext } from './Context';
 
-export default class Login extends Component {
-    constructor() {
-        super();
-        this.state = {
-            showPassword: false,
-            token: "",
-            submitHover: false
-        };
+export default function Login () {
+    const [isHidden, setIsHidden] = React.useState(true);
+    const [submitHover, setSubmitHover] = React.useState(false);
+    const [token, setToken] = React.useState(null);
+    const { signIn } = React.useContext(AuthContext);
+
+    function showPassword () {
+        setIsHidden( !isHidden );
     }
 
-    showPassword() {
-        this.setState({ showPassword: !this.state.showPassword });
+    function login (token) {
+        signIn(token)
     }
 
-    login(data) {
-        //signIn(data);
-    }
-
-    render() {
-        return (
-            <View style={Styles.container}>
-                <View style={Styles.inputGroups}>
-                    <Text style={Styles.label}>Token:</Text>
-                    <TextInput
-                        style={Styles.textInput}
-                        placeholderTextColor="rgb(180, 180, 180)"
-                        placeholder="re5t40-89sdf7-v96dc5"
-                        value={this.state.token}
-                        onChangeText={value => this.setState({ token: value })}
-                        secureTextEntry={!this.state.showPassword} />
-                    <TouchableOpacity
-                        style={Styles.btnEye}
-                        onPress={this.showPassword.bind(this)}
-                    >
-                        <Icon name={this.state.showPassword ? "ios-eye-off-outline" : "ios-eye-outline"} size={26} color="white" />
-                    </TouchableOpacity>
-                </View>
-
-                <View
-                    pointerEvents={isEmpty(this.state.token) ? "none" : "auto"}
-                    style={this.state.submitHover ? Styles.submitHover : Styles.submit}
-                    onTouchStart={() => {
-                        this.setState({ submitHover: true }),
-                        this.login(this.state.token)
-                    }}
-                    onTouchEnd={() => this.setState({ submitHover: false })}
+    return (
+        <View style={Styles.container}>
+            <View style={Styles.inputGroups}>
+                <Text style={Styles.label}>Token:</Text>
+                <TextInput
+                    style={Styles.textInput}
+                    placeholderTextColor="rgb(180, 180, 180)"
+                    placeholder="re5t40-89sdf7-v96dc5"
+                    value={token}
+                    onChangeText={setToken}
+                    secureTextEntry={isHidden} />
+                <TouchableOpacity
+                    style={Styles.btnEye}
+                    onPress={showPassword}
                 >
-                    <Text style={Styles.label}>Se connecter</Text>
-                </View>
+                    <Icon name={isHidden ? "ios-eye-off-outline" : "ios-eye-outline"} size={26} color="white" />
+                </TouchableOpacity>
             </View>
-        )
-    }
+
+            <View
+                pointerEvents={isEmpty(token) ? "none" : "auto"}
+                style={submitHover ? Styles.submitHover : Styles.submit}
+                onTouchStart={() => {
+                    setSubmitHover(true),
+                    login(token)
+                }}
+                onTouchEnd={()=>setSubmitHover(false)}
+            >
+                <Text style={Styles.label}>Se connecter</Text>
+            </View>
+        </View>
+    )
 }
