@@ -1,8 +1,45 @@
 import React from 'react';
-import { View, ScrollView, ImageBackground, StyleSheet, Dimensions } from 'react-native';
+import axios from 'axios';
+import { FlatList, View, ScrollView, ImageBackground, StyleSheet, Dimensions } from 'react-native';
+import { isEmpty, ip, port } from '../components/Helpers';
+import { AuthContext } from '../components/Context';
+
+import Splash from './Splash';
 import Product from "../components/Product";
+
 export default function ListOfProduct(props) {
     const { navigation } = props;
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [products, setProducts] = React.useState([{
+        name: "",
+        details: "",
+        price: "",
+        unit: "",
+        stock: "",
+        picture: "",
+        current: false,
+        suppliers: [""],
+        updatedAt: "",
+    }]);
+    const { userToken } = React.useContext(AuthContext);
+
+    React.useEffect(() => {
+        (async () => {
+            try {
+                var res = await axios.get(`http://${ip}:${port}/api/products`, { headers: { Authorization: `Bearer ${userToken}` } })
+                setProducts(res.data.data)
+                setIsLoading(false)
+
+            } catch (e) {
+                console.log(e.message)
+
+            }
+        })()
+    });
+
+    if (isLoading) {
+        return <Splash />;
+    }
     return (
         <ImageBackground
             source={require('../src/pictures/Moutains.jpg')}
@@ -11,51 +48,20 @@ export default function ListOfProduct(props) {
         >
             <View>
                 <ScrollView>
-                    <Product navigation={navigation} product={product} />
-                    <Product navigation={navigation} product={product1} />
-                    <Product navigation={navigation} product={product2} />
-                    <Product navigation={navigation} product={product} />
-                    <Product navigation={navigation} product={product1} />
-                    <Product navigation={navigation} product={product2} />
+
+                    {products.map((product, key) => {
+                        return (
+                            <Product navigation={navigation} product={product} />
+
+                        );
+                    })}
                 </ScrollView>
+
             </View>
         </ImageBackground>
     )
 }
 
-const product = {
-    name: "brocoli d'amérique",
-    details: "It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉,It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉,It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉",
-    price: "2.3",
-    unit: "pièce",
-    stock: "26",
-    picture: "broccoli.png",
-    current: true,
-    suppliers: ["diogo", "gabriel"],
-    updatedAt: "08.08.2008 17:00:00.00",
-};
-const product1 = {
-    name: "carrottes degueux",
-    details: "It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉",
-    price: "3",
-    unit: "pièce",
-    stock: "12",
-    picture: "carots.png",
-    current: true,
-    suppliers: ["diogo", "gabriel"],
-    updatedAt: "08.08.2008 17:00:00.00",
-};
-const product2 = {
-    name: "tomate coeur de boeuf",
-    details: "It's a small description of an inexisting product but for the test i want a great product for ingenious people! please purpose ideas 😉",
-    price: "6",
-    unit: "pièce",
-    stock: "540",
-    picture: "tomatoes.png",
-    current: true,
-    suppliers: ["diogo", "gabriel"],
-    updatedAt: "08.08.2008 17:00:00.00",
-};
 const styles = StyleSheet.create({
     background: {
         flex: 1,

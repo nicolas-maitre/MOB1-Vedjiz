@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, ScrollView, ImageBackground, Image, Alert, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
 import Styles from "../src/styles/DetailProduct"
+import {ip, port} from "../components/Helpers"
 
 export default function DetailProduct({ route }) {
     const { product } = route.params;
@@ -20,7 +21,7 @@ export default function DetailProduct({ route }) {
         >
             <View style={Styles.detailProduct}>
                 <View style={Styles.productBackground}>
-                    <Image source={{ uri: `http://192.168.1.103/storage/pictures/${product.picture}` }} style={Styles.picture} />
+                    <Image source={{ uri: `http://${ip}:${port}/storage/pictures/${product.picture}` }} style={Styles.picture} />
                     <View style={Styles.details}>
                         <Text>💰 {product.price} CHF / {product.unit}</Text>
                         <Text>📦 {product.stock} disponibles(s)</Text>

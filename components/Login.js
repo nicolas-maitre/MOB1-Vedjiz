@@ -36,6 +36,7 @@ export default function Login () {
                 >
                     <Icon name={isHidden ? "ios-eye-off-outline" : "ios-eye-outline"} size={26} color="white" />
                 </TouchableOpacity>
+                
             </View>
 
             <View
@@ -49,6 +50,7 @@ export default function Login () {
             >
                 <Text style={Styles.label}>Se connecter</Text>
             </View>
+            
         </View>
     )
 }

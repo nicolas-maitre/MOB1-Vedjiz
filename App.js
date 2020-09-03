@@ -1,6 +1,7 @@
 
 import React, { Component } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
+import axios from 'axios'
 
 import { NavigationContainer } from '@react-navigation/native';
 
@@ -9,18 +10,29 @@ import { DrawerScreen } from './components/DrawerScreens';
 
 import Splash from './views/Splash';
 import { AuthContext } from './components/Context';
-import {isEmpty} from './components/Helpers';
+import {isEmpty, ip, port} from './components/Helpers';
 import { Alert } from 'react-native';
 
 export default function App() {
-  const [isLoading, setIsLoading] = React.useState(true);
+  const [isLoading, setIsLoading] = React.useState(false);
   const [userToken, setUserToken] = React.useState(null);
 
   const authContext = React.useMemo(() => {
+
     return {
-      signIn: (token) => {
-        setUserToken(token),
-        setIsLoading(true)
+      userToken,
+      signIn: async (token) => {
+        try{
+          setIsLoading(true)
+          var res = await axios.get(`http://${ip}:${port}/api/me`, {headers: { Authorization: `Bearer ${token}` }})
+          setIsLoading(false)
+          setUserToken(token)
+          // await AsyncStorage.setItem('@storage_Key', value)
+        }
+        catch(e)
+        {
+          console.log(e.message);
+        }
       },
       signOut: () => {
         setUserToken(null),
@@ -34,11 +46,6 @@ export default function App() {
     }
   });
 
-  React.useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  });
 
   if (isLoading) {
     return <Splash />;

@@ -32,10 +32,6 @@ export const DrawerScreen = () => (
             labelStyle: {
                 fontSize: 20,
             },
-            // itemStyle: {
-            //     borderBottomColor: "rgb(185, 188, 169)",
-            //     borderBottomWidth: 1
-            // },
             activeBackgroundColor: "rgba(160, 187, 194, 0.5)",
             activeTintColor: "rgb(0, 94, 146)"
         }}
