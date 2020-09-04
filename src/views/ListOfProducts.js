@@ -11,15 +11,16 @@ import Icon from 'react-native-vector-icons/Fontisto';
 import Styles2 from '../styles/Product';
 export default function ListOfProduct(props) {
     const { navigation } = props;
-    const { userToken, set } = React.useContext(AuthContext);
+    const { userToken } = React.useContext(AuthContext);
     const [isLoading, setIsLoading] = React.useState(true);
     const [refreshing, setRefreshing] = React.useState(false);
     const [products, setProducts] = React.useState(async () => getProducts());
 
     async function getProducts() {
         try {
+            setIsLoading(true)
             setRefreshing(true)
-            var res = await axios.get(`http://${ip}:${port}/api/products`, { headers: { Authorization: `Bearer ${userToken}` } })
+            var res = await axios.get(`http://${ip}:${port}/api/products`, { headers: { Authorization: `Bearer ${userToken}` } }, { timeout: 0.2 })
             setProducts(res.data.data)
         }
         catch (e) {
@@ -52,12 +53,13 @@ export default function ListOfProduct(props) {
                             flex: 1,
                             height: Dimensions.get('window').height
                         }}>
+                            <Splash />
                             <Text style={{
-                                flex: 1,
+                                position: "absolute",
+                                top: "30%",
                                 color: 'white',
                                 fontSize: 20,
                                 textAlign: 'center',
-                                marginTop: '50%',
                                 textShadowColor: '#000',
                                 textShadowOffset: { width: 3, height: 3 },
                                 textShadowRadius: 7,
