@@ -24,23 +24,38 @@ export default function App() {
         try{
           setIsLoading(true)
           var res = await axios.get(`http://${ip}:${port}/api/me`, {headers: { Authorization: `Bearer ${token}` }})
-          setIsLoading(false)
           setUserToken(token)
           // await AsyncStorage.setItem('@storage_Key', value)
         }
         catch(e)
         {
-          console.log(e.message);
+          Alert.alert("😵 Erreur de connexion","Une erreur est survenue lors de la connexion!\nMerci de vérifier votre token ou que vous ayez bien une connexion internet...")
+        }
+        finally
+        {
+          setIsLoading(false)
         }
       },
       signOut: () => {
         setUserToken(null),
         setIsLoading(false)
       },
-      signUp: (user) => {
-        setUserToken(null),
-        setIsLoading(false),
-        Alert.alert("SignUP", `Firstname: ${user.firstname}\nLastname: ${user.lastname}\nPhonenumber: ${user.phonenumber}`);
+      signUp: async (user) => {
+        try{
+          setIsLoading(true)          
+          var res = await axios.post(`http://${ip}:${port}/api/user/apply`, {firstname: user.firstname, lastname: user.lastname, phonenumber: user.phonenumber})
+          setUserToken(null)
+          Alert.alert("👍 Inscription complétée","Vous recevrez votre token par message,\ncela peut prendre plusieurs jours, merci de bien vouloir patienter...")
+        }
+        catch(e)
+        {
+          console.log(e.message)
+          Alert.alert("😓 Erreur d'inscription","Une erreur est survenue lors de la connexion\nVeuillez reéssayer plus tard s'il vous plaît...")
+        }
+        finally
+        {
+          setIsLoading(false)
+        }
       },
     }
   });
