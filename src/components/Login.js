@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, TextInput, TouchableOpacity, TouchableHighlight, Alert } from 'react-native';
-import Styles from '../src/styles/Register_Login';
+import Styles from '../styles/Register_Login';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {isEmpty} from './Helpers';
 import { AuthContext } from './Context';

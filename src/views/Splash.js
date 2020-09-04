@@ -5,7 +5,7 @@ import { PacmanIndicator } from 'react-native-indicators';
 export default function Homepage() {
     return (
         <ImageBackground
-            source={require('../src/pictures/Moutains.jpg')}
+            source={require('../pictures/Moutains.jpg')}
             style={{
                 flex: 1,
                 width: null,

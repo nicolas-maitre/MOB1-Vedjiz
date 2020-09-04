@@ -1,5 +1,5 @@
 import React from 'react';
-import Styles from '../src/styles/Register_Login';
+import Styles from '../styles/Register_Login';
 import { Text, View, TextInput, Alert, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { isEmpty } from './Helpers';

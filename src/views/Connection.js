@@ -3,12 +3,12 @@ import { View, ScrollView, Dimensions, ImageBackground } from 'react-native';
 import Login from "../components/Login";
 import Register from "../components/Register";
 import HorizontalSeparation from "../components/HorizontalSeparation";
-import Styles from "../src/styles/Connection";
+import Styles from "../styles/Connection";
 
 export default function Connection() {
     return (
         <ImageBackground
-            source={require('../src/pictures/Moutains.jpg')}
+            source={require('../pictures/Moutains.jpg')}
             style={Styles.background}
         >
             <View>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, View, Image, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
-import Styles from '../src/styles/Product';
+import Styles from '../styles/Product';
 import {ip, port} from "./Helpers"
 export default function Produc(props) {
     function getDetails({ navigation }, product) {

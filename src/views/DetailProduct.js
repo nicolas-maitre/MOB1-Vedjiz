@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, ImageBackground, Image, Alert, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
-import Styles from "../src/styles/DetailProduct"
+import Styles from "../styles/DetailProduct"
 import {ip, port} from "../components/Helpers"
 
 export default function DetailProduct({ route }) {
@@ -15,7 +15,7 @@ export default function DetailProduct({ route }) {
     }
     return (
         <ImageBackground
-            source={require('../src/pictures/Moutains.jpg')}
+            source={require('../pictures/Moutains.jpg')}
             style={Styles.background}
             blurRadius={1}
         >

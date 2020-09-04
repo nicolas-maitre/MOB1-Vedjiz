@@ -5,12 +5,12 @@ import axios from 'axios'
 
 import { NavigationContainer } from '@react-navigation/native';
 
-import { AuthStackScreen } from './components/StackScreens';
-import { DrawerScreen } from './components/DrawerScreens';
+import { AuthStackScreen } from './src/components/StackScreens';
+import { DrawerScreen } from './src/components/DrawerScreens';
 
-import Splash from './views/Splash';
-import { AuthContext } from './components/Context';
-import {isEmpty, ip, port} from './components/Helpers';
+import Splash from './src/views/Splash';
+import { AuthContext } from './src/components/Context';
+import {isEmpty, ip, port} from './src/components/Helpers';
 import { Alert } from 'react-native';
 
 export default function App() {
@@ -18,7 +18,6 @@ export default function App() {
   const [userToken, setUserToken] = React.useState(null);
 
   const authContext = React.useMemo(() => {
-
     return {
       userToken,
       signIn: async (token) => {
