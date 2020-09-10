@@ -50,7 +50,7 @@ export default function App() {
         catch(e)
         {
           console.log(e.message)
-          Alert.alert("😓 Erreur d'inscription","Une erreur est survenue lors de la connexion\nVeuillez reéssayer plus tard s'il vous plaît...")
+          Alert.alert("😓 Erreur d'inscription","Une erreur est survenue lors de l'inscription\nVeuillez reéssayer plus tard s'il vous plaît...")
         }
         finally
         {

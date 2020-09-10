@@ -19,6 +19,7 @@ export default function ListOfProduct(props) {
     async function getProducts() {
         try {
             setRefreshing(true)
+            setIsLoading(true)
             var res = await axios.get(`http://${ip}:${port}/api/products`, { headers: { Authorization: `Bearer ${userToken}` } })
             setProducts(res.data.data)
         }
@@ -52,16 +53,7 @@ export default function ListOfProduct(props) {
                             flex: 1,
                             height: Dimensions.get('window').height
                         }}>
-                            <Text style={{
-                                flex: 1,
-                                color: 'white',
-                                fontSize: 20,
-                                textAlign: 'center',
-                                marginTop: '50%',
-                                textShadowColor: '#000',
-                                textShadowOffset: { width: 3, height: 3 },
-                                textShadowRadius: 7,
-                            }}>Veuillez tirer vers le bas pour raffraîchir la page</Text>
+                            <Text style={styles.error}>Veuillez tirer vers le bas pour raffraîchir la page</Text>                            
                         </View>
                     }
                     renderItem={(product) => (
@@ -86,5 +78,15 @@ const styles = StyleSheet.create({
         flex: 1,
         width: null,
         height: Dimensions.get('window').height,
+    },
+    error:{
+        flex: 1,
+        color: 'white',
+        fontSize: 20,
+        textAlign: 'center',
+        marginTop: '50%',
+        textShadowColor: '#000',
+        textShadowOffset: { width: 3, height: 3 },
+        textShadowRadius: 7,
     },
 });
