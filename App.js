@@ -13,6 +13,7 @@ import { AuthContext } from './src/components/Context';
 import {isEmpty, ip, port} from './src/components/Helpers';
 import { Alert } from 'react-native';
 
+axios.defaults.timeout = 5000;
 export default function App() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [userToken, setUserToken] = React.useState(null);

@@ -6,9 +6,7 @@ import { AuthContext } from '../components/Context';
 
 import Splash from './Splash';
 import Product from "../components/Product";
-
-import Icon from 'react-native-vector-icons/Fontisto';
-import Styles2 from '../styles/Product';
+axios.defaults.timeout = 500;
 export default function ListOfProduct(props) {
     const { navigation } = props;
     const { userToken, set } = React.useContext(AuthContext);
@@ -66,8 +64,6 @@ export default function ListOfProduct(props) {
                         />
                     }
                 />
-
-
             </View>
         </ImageBackground>
     )
