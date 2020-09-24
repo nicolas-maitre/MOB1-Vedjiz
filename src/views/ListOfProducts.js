@@ -9,7 +9,7 @@ import Product from "../components/Product";
 axios.defaults.timeout = 500;
 export default function ListOfProduct(props) {
     const { navigation } = props;
-    const { userToken, set } = React.useContext(AuthContext);
+    const { userToken } = React.useContext(AuthContext);
     const [isLoading, setIsLoading] = React.useState(true);
     const [refreshing, setRefreshing] = React.useState(false);
     const [products, setProducts] = React.useState(async () => getProducts());

@@ -1,21 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Text, View, TextInput, TouchableOpacity, TouchableHighlight, Alert } from 'react-native';
 import Styles from '../styles/Register_Login';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {isEmpty} from './Helpers';
+import { isEmpty } from './Helpers';
 import { AuthContext } from './Context';
+import AsyncStorage from '@react-native-community/async-storage';
 
-export default function Login () {
+export default function Login() {
     const [isHidden, setIsHidden] = React.useState(true);
     const [submitHover, setSubmitHover] = React.useState(false);
     const [token, setToken] = React.useState(null);
-    const { signIn } = React.useContext(AuthContext);
+    const { signIn, userToken } = React.useContext(AuthContext);
 
-    function showPassword () {
-        setIsHidden( !isHidden );
+
+    const fetchToken = async () => {
+        const value = await AsyncStorage.getItem('user_token');
+        if (value != null) {
+            login(value);
+            setToken(value)
+        }
+    };
+    fetchToken()
+    function showPassword() {
+        setIsHidden(!isHidden);
     }
 
-    function login (token) {
+    function login(token) {
         signIn(token)
     }
 
@@ -36,7 +46,7 @@ export default function Login () {
                 >
                     <Icon name={isHidden ? "ios-eye-off-outline" : "ios-eye-outline"} size={26} color="white" />
                 </TouchableOpacity>
-                
+
             </View>
 
             <View
@@ -44,13 +54,13 @@ export default function Login () {
                 style={submitHover ? Styles.submitHover : Styles.submit}
                 onTouchStart={() => {
                     setSubmitHover(true),
-                    login(token)
+                        login(token)
                 }}
-                onTouchEnd={()=>setSubmitHover(false)}
+                onTouchEnd={() => setSubmitHover(false)}
             >
                 <Text style={Styles.label}>Se connecter</Text>
             </View>
-            
+
         </View>
     )
 }

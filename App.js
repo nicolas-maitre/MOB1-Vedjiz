@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios'
@@ -26,10 +25,11 @@ export default function App() {
           setIsLoading(true)
           var res = await axios.get(`http://${ip}:${port}/api/me`, {headers: { Authorization: `Bearer ${token}` }})
           setUserToken(token)
-          // await AsyncStorage.setItem('@storage_Key', value)
+          AsyncStorage.setItem('user_token', token)
         }
         catch(e)
         {
+          AsyncStorage.removeItem('user_token')
           Alert.alert("😵 Erreur de connexion","Une erreur est survenue lors de la connexion!\nMerci de vérifier votre token ou que vous ayez bien une connexion internet...")
         }
         finally
