@@ -43,7 +43,7 @@ const profilStackScreen = ({ navigation }) => (
 
 const Drawer = createDrawerNavigator();
 export const DrawerScreen = () => (
-    <Drawer.Navigator initialRouteName="Magasin"
+    <Drawer.Navigator initialRouteName="Profil"
         drawerType="back"
         drawerContentOptions={{
             labelStyle: {
