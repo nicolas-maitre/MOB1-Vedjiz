@@ -1,10 +1,40 @@
 import React from 'react';
-import { View, Text, ScrollView, ImageBackground, Image, Alert, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
-import Icon from 'react-native-vector-icons/Fontisto';
-import {ip, port} from "../components/Helpers"
+import axios from 'axios';
 
-export default function Profil() {
+import { View, ScrollView, ImageBackground, StyleSheet, Dimensions, Text, TouchableOpacity, Alert } from 'react-native';
+import { isEmpty, ip, port } from '../components/Helpers';
+import { AuthContext } from '../components/Context';
 
+import Splash from './Splash';
+axios.defaults.timeout = 500;
+
+export default function Profil(props) {    
+    const { navigation } = props;
+    const { userToken } = React.useContext(AuthContext);
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [refreshing, setRefreshing] = React.useState(false);
+    const [me, setMe] = React.useState("");
+    React.useEffect(async () => {
+        setIsLoading(true)
+        var myData = await getMyData()
+        setMe(myData)
+        setIsLoading(false)
+    }, []);
+
+    async function getMyData() {
+        var myInformations = [];
+
+        var me  = await axios.get(`http://${ip}:${port}/api/me`, { headers: { Authorization: `Bearer ${userToken}` } })
+        var balance = await axios.get(`http://${ip}:${port}/api/me/balance`, { headers: { Authorization: `Bearer ${userToken}` } })
+        myInformations = me.data.data
+        myInformations["balance"] = balance.data
+
+        return myInformations;
+    }
+    
+    if (isLoading) {
+        return <Splash />;
+    }
     return (
         <ImageBackground
             source={require('../pictures/Moutains.jpg')}
@@ -14,8 +44,11 @@ export default function Profil() {
             <View style={styles.detailProduct}>
                 <View style={styles.productBackground}>
                     <ScrollView>    
-                        <Text>💰 </Text>
-                        <Text>📦 </Text>
+                        <Text>{me.firstname}</Text>
+                        <Text>{me.lastname}</Text>
+                        <Text>💰balance:</Text>
+                        <Text>mon débit: {me.balance.debit}</Text>
+                        <Text>mon crébit: {me.balance.credit}</Text>
                     </ScrollView>        
                 </View>
             </View>
