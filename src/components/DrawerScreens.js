@@ -55,6 +55,5 @@ export const DrawerScreen = () => (
         drawerStyle={{ position: "absolute", top: 60 }} >
         <Drawer.Screen name="Profil" component={profilStackScreen} />
         <Drawer.Screen name="Magasin" component={ListOfProductsStackScreen} />
-        <Drawer.Screen name="Connection" component={Connection} options={{ animationEnabled: false }} />
     </Drawer.Navigator>
 );
