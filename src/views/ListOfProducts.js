@@ -24,7 +24,7 @@ export default function ListOfProduct(props) {
         }
         catch (e) {
             console.log(e.message)
-            Alert.alert("😵 Erreur de connexion", "Une erreur est survenue lors de la connexion!\nMerci de que vous ayez bien une connexion internet...")
+            Alert.alert("😵 Erreur de connexion", "Une erreur est survenue lors de la connexion!\nMerci de vérifier que vous ayez bien une connexion internet...")
             setProducts([])
         }
         finally {
