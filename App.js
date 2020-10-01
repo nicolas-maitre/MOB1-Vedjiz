@@ -39,7 +39,7 @@ export default function App() {
       },
       signOut: () => {
         setUserToken(null),
-        setIsLoading(false)
+        AsyncStorage.removeItem('user_token')
       },
       signUp: async (user) => {
         try{

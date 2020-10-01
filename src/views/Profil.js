@@ -9,11 +9,14 @@ import Splash from './Splash';
 axios.defaults.timeout = 500;
 
 export default function Profil({ navigation }) {  
-    const { userToken } = React.useContext(AuthContext);
+    const { signOut, userToken } = React.useContext(AuthContext);
+    
     const [isLoading, setIsLoading] = React.useState(true);
     const [refreshing, setRefreshing] = React.useState(false);
     const [error, setError] = React.useState(true);
     const [me, setMe] = React.useState("");
+
+
     React.useEffect(() => {
         async function fetchData() {
             setIsLoading(true)
@@ -75,13 +78,16 @@ export default function Profil({ navigation }) {
             style={styles.background}
             blurRadius={1}
         >
-            <View style={styles.userBackground}>
+            <View style={styles.userBackground}>         
                 <Text style={styles.title}>{me.firstname} {me.lastname}</Text>
                 <Text style={styles.info}>💰balance:</Text>
                 <Text style={styles.cash}>💵 Débit: {me.balance.debit}</Text>
                 <Text style={styles.cash}>💰 Crédit: {me.balance.credit}</Text>
                 <TouchableOpacity  onPress={()=>navigation.navigate("Magasin")}>
                     <Text style={styles.back}>Aller au Magasin</Text>
+                </TouchableOpacity>
+                <TouchableOpacity  onPress={()=>signOut()}>
+                    <Text style={[styles.back, styles.logout]}>Déconnexion</Text>
                 </TouchableOpacity>
             </View>
         </ImageBackground>
@@ -114,7 +120,7 @@ const styles = StyleSheet.create({
     info: {
         width: "100%",
         textAlign: 'left',
-        lineHeight: 200,
+        lineHeight: 150,
         fontSize: 30,
     },
     cash: {        
@@ -125,11 +131,14 @@ const styles = StyleSheet.create({
     back: {
         backgroundColor: "rgba(150, 150, 150, 0.8)",
         borderRadius: 20, 
-        marginTop: 100,
+        marginTop: 20,
         padding: 30,
         width: "100%",
         textAlign: 'center',
         fontSize: 20,
+    },
+    logout: {
+        backgroundColor: "rgba(150, 0, 0, 0.8)",
     },
     error: {        
         flex: 1,
