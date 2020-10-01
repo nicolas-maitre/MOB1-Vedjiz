@@ -1,15 +1,14 @@
 import React from 'react';
-import { View, ScrollView, Dimensions, ImageBackground } from 'react-native';
+import { View, ScrollView, Dimensions, ImageBackground, StyleSheet } from 'react-native';
 import Login from "../components/Login";
 import Register from "../components/Register";
 import HorizontalSeparation from "../components/HorizontalSeparation";
-import Styles from "../styles/Connection";
 
 export default function Connection() {
     return (
         <ImageBackground
             source={require('../pictures/Moutains.jpg')}
-            style={Styles.background}
+            style={styles.background}
         >
             <View>
                 <ScrollView>
@@ -23,3 +22,11 @@ export default function Connection() {
         </ImageBackground>
     )
 }
+
+const styles = StyleSheet.create({
+    background: {
+        flex: 1,
+        width: null,
+        height: Dimensions.get('window').height,
+    },
+});

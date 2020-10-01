@@ -7,6 +7,7 @@ import { AuthContext } from '../components/Context';
 import Splash from './Splash';
 import Product from "../components/Product";
 axios.defaults.timeout = 500;
+
 export default function ListOfProduct(props) {
     const { navigation } = props;
     const { userToken } = React.useContext(AuthContext);

@@ -1,4 +1,27 @@
-import { StyleSheet, Dimensions } from 'react-native';
+import React from 'react';
+import { View, Text, ScrollView, ImageBackground, Image, Alert, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import Icon from 'react-native-vector-icons/Fontisto';
+import {ip, port} from "../components/Helpers"
+
+export default function Profil() {
+
+    return (
+        <ImageBackground
+            source={require('../pictures/Moutains.jpg')}
+            style={styles.background}
+            blurRadius={1}
+        >
+            <View style={styles.detailProduct}>
+                <View style={styles.productBackground}>
+                    <ScrollView>    
+                        <Text>💰 </Text>
+                        <Text>📦 </Text>
+                    </ScrollView>        
+                </View>
+            </View>
+        </ImageBackground>
+    )
+}
 
 const styles = StyleSheet.create({
     background: {
@@ -39,43 +62,7 @@ const styles = StyleSheet.create({
     descriptionText: {
         lineHeight: 25,
     },
-    providerGroup: {
-        borderWidth: 1,
-        borderColor: "transparent",
-        borderTopColor: "rgba(0, 0, 0, 0.2)",
-        paddingTop: 20,
-    },
-    providerTitle: {
-        fontSize: 20,
-        textDecorationLine: "underline",
-        marginBottom: 10
-    },
-    providers: {        
-        height: 100,
-    },
-    provider: {
-        padding: 2,
-        paddingLeft: 20,
-        borderWidth: 1,
-        borderColor: "transparent",
-        borderBottomColor: "rgba(0, 0, 0, 0.2)",        
-    },
     noBorders: {
         borderBottomColor: "transparent",
     },
-    market: {
-        position: "absolute",
-        right: 20,
-        top: 20,
-        width: 40,
-        height: 40,
-        paddingTop: 7,
-        paddingLeft: 2,
-        borderRadius: 100,
-        overflow:"hidden",
-        backgroundColor: "rgb(109, 116, 220)",
-
-    }
 });
-
-export default styles;
