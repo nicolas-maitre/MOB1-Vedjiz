@@ -8,6 +8,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import DetailProduct from '../views/DetailProduct';
 import List from '../views/ListOfProducts';
 import Connection from '../views/Connection';
+import Profil from '../views/Profil';
+
 import DrawerLayout from 'react-native-gesture-handler/DrawerLayout';
 
 const ListOfProductsStack = createStackNavigator();
@@ -24,6 +26,21 @@ const ListOfProductsStackScreen = ({ navigation }) => (
         <ListOfProductsStack.Screen name="DetailProduct" component={DetailProduct} options={({ route }) => ({ title: route.params.product.name })} />
     </ListOfProductsStack.Navigator>
 );
+
+const profilStack = createStackNavigator();
+const profilStackScreen = ({ navigation }) => (
+    <profilStack.Navigator >
+        <profilStack.Screen name="Profil" component={Profil} options={{
+            title: "Profil",
+            headerLeft: () => (
+                <TouchableOpacity style={{ paddingLeft: 10, paddingTop: 5 }} onPress={() => navigation.openDrawer()}>
+                    <Icon name='ios-menu' size={25} color='black' />
+                </TouchableOpacity>
+            )
+        }} />
+    </profilStack.Navigator>
+);
+
 const Drawer = createDrawerNavigator();
 export const DrawerScreen = () => (
     <Drawer.Navigator initialRouteName="Magasin"
@@ -36,7 +53,8 @@ export const DrawerScreen = () => (
             activeTintColor: "rgb(0, 94, 146)"
         }}
         drawerStyle={{ position: "absolute", top: 60 }} >
-        <Drawer.Screen name="Profil" component={Connection} options={{ animationEnabled: false }} />
+        <Drawer.Screen name="Profil" component={profilStackScreen} />
         <Drawer.Screen name="Magasin" component={ListOfProductsStackScreen} />
+        <Drawer.Screen name="Connection" component={Connection} options={{ animationEnabled: false }} />
     </Drawer.Navigator>
 );

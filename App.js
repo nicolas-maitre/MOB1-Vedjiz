@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios'
@@ -13,6 +12,7 @@ import { AuthContext } from './src/components/Context';
 import {isEmpty, ip, port} from './src/components/Helpers';
 import { Alert } from 'react-native';
 
+axios.defaults.timeout = 5000;
 export default function App() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [userToken, setUserToken] = React.useState(null);
@@ -25,10 +25,11 @@ export default function App() {
           setIsLoading(true)
           var res = await axios.get(`http://${ip}:${port}/api/me`, {headers: { Authorization: `Bearer ${token}` }})
           setUserToken(token)
-          // await AsyncStorage.setItem('@storage_Key', value)
+          AsyncStorage.setItem('user_token', token)
         }
         catch(e)
         {
+          AsyncStorage.removeItem('user_token')
           Alert.alert("😵 Erreur de connexion","Une erreur est survenue lors de la connexion!\nMerci de vérifier votre token ou que vous ayez bien une connexion internet...")
         }
         finally
@@ -50,7 +51,7 @@ export default function App() {
         catch(e)
         {
           console.log(e.message)
-          Alert.alert("😓 Erreur d'inscription","Une erreur est survenue lors de la connexion\nVeuillez reéssayer plus tard s'il vous plaît...")
+          Alert.alert("😓 Erreur d'inscription","Une erreur est survenue lors de l'inscription\nVeuillez reéssayer plus tard s'il vous plaît...")
         }
         finally
         {
