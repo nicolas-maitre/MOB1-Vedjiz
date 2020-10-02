@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, ImageBackground, Image, Alert, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
-import {ip, port} from "../components/Helpers"
+import {ip, port} from '../../app.json';
 
 export default function DetailProduct({ route }) {
     const { product } = route.params;

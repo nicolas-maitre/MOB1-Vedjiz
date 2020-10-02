@@ -1,10 +1,12 @@
+import Axios from 'axios';
 import React from 'react';
 import { Text, View, Image, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
-import {ip, port} from "./Helpers"
+import {ip, port} from '../../app.json';
+import axios from 'axios'
+
 export default function Produc(props) {
     function getDetails({ navigation }, product) {
-        // Alert.alert("My product", JSON.stringify(product));
         navigation.navigate("DetailProduct", { product: product })
     }
     function addToMarket(product) {
@@ -75,12 +77,11 @@ const styles = StyleSheet.create({
     },
     lastUpdate: {
         position: "absolute",
-        right: 15,
+        right: 200,
         top: 8,
         width: 65,
         fontSize: 12,
-        overflow: "hidden",
-        color: "rgba(0, 0, 0, 0.6)"
+        elevation: 20,
     },
     description: {
         paddingTop: 15,

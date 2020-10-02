@@ -1,4 +1,7 @@
 {
   "name": "vedjiz",
-  "displayName": "vedjiz"
+  "displayName": "vedjiz",
+  "baseURL": "http:10.229.33.173:81/api",
+  "ip": "10.229.33.173",
+  "port": "81"
 }

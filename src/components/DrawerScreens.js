@@ -7,15 +7,12 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import DetailProduct from '../views/DetailProduct';
 import List from '../views/ListOfProducts';
-import Connection from '../views/Connection';
 import Profil from '../views/Profil';
 
-import DrawerLayout from 'react-native-gesture-handler/DrawerLayout';
-
-const ListOfProductsStack = createStackNavigator();
-const ListOfProductsStackScreen = ({ navigation }) => (
-    <ListOfProductsStack.Navigator >
-        <ListOfProductsStack.Screen name="Magasin" component={List} options={{
+const ProductsStack = createStackNavigator();
+const ProductsStackScreen = ({ navigation }) => (
+    <ProductsStack.Navigator >
+        <ProductsStack.Screen name="Magasin" component={List} options={{
             title: "Magasin",
             headerLeft: () => (
                 <TouchableOpacity style={{ paddingLeft: 10, paddingTop: 5 }} onPress={() => navigation.openDrawer()}>
@@ -23,8 +20,8 @@ const ListOfProductsStackScreen = ({ navigation }) => (
                 </TouchableOpacity>
             )
         }} />
-        <ListOfProductsStack.Screen name="DetailProduct" component={DetailProduct} options={({ route }) => ({ title: route.params.product.name })} />
-    </ListOfProductsStack.Navigator>
+        <ProductsStack.Screen name="DetailProduct" component={DetailProduct} options={({ route }) => ({ title: route.params.product.name })} />
+    </ProductsStack.Navigator>
 );
 
 const profilStack = createStackNavigator();
@@ -54,6 +51,6 @@ export const DrawerScreen = () => (
         }}
         drawerStyle={{ position: "absolute", top: 60 }} >
         <Drawer.Screen name="Profil" component={profilStackScreen} />
-        <Drawer.Screen name="Magasin" component={ListOfProductsStackScreen} />
+        <Drawer.Screen name="Magasin" component={ProductsStackScreen} />
     </Drawer.Navigator>
 );
