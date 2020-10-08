@@ -1,16 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import { FlatList, View, ScrollView, ImageBackground, StyleSheet, Dimensions, Text, Image, TouchableOpacity, Alert, RefreshControl } from 'react-native';
-import { isEmpty, ip, port } from '../components/Helpers';
-import { AuthContext } from '../components/Context';
 
 import Splash from './Splash';
 import Product from "../components/Product";
-axios.defaults.timeout = 500;
 
 export default function ListOfProduct(props) {
     const { navigation } = props;
-    const { userToken } = React.useContext(AuthContext);
     const [isLoading, setIsLoading] = React.useState(true);
     const [refreshing, setRefreshing] = React.useState(false);
     const [products, setProducts] = React.useState(async () => getProducts());
@@ -19,7 +15,7 @@ export default function ListOfProduct(props) {
         try {
             setRefreshing(true)
             setIsLoading(true)
-            var res = await axios.get(`http://${ip}:${port}/api/products`, { headers: { Authorization: `Bearer ${userToken}` } })
+            var res = await axios.get('/products')
             setProducts(res.data.data)
         }
         catch (e) {

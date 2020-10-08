@@ -2,30 +2,26 @@ import React, { Component } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios'
 
-import { NavigationContainer } from '@react-navigation/native';
-
-import { AuthStackScreen } from './src/components/StackScreens';
-import { DrawerScreen } from './src/components/DrawerScreens';
-
-import Splash from './src/views/Splash';
 import { AuthContext } from './src/components/Context';
-import {isEmpty, ip, port} from './src/components/Helpers';
 import { Alert } from 'react-native';
 
-axios.defaults.timeout = 5000;
+import Router from './src/router';
 export default function App() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [userToken, setUserToken] = React.useState(null);
 
   const authContext = React.useMemo(() => {
     return {
+      isLoading,
+      setIsLoading,
       userToken,
       signIn: async (token) => {
         try{
           setIsLoading(true)
-          var res = await axios.get(`http://${ip}:${port}/api/me`, {headers: { Authorization: `Bearer ${token}` }})
+          var res = await axios.get(`/me`, {headers: { Authorization: `Bearer ${token}` }})
           setUserToken(token)
           AsyncStorage.setItem('user_token', token)
+          axios.defaults.headers.common['Authorization']= `Bearer ${token}`
         }
         catch(e)
         {
@@ -44,7 +40,7 @@ export default function App() {
       signUp: async (user) => {
         try{
           setIsLoading(true)          
-          var res = await axios.post(`http://${ip}:${port}/api/user/apply`, {firstname: user.firstname, lastname: user.lastname, phonenumber: user.phonenumber})
+          var res = await axios.post(`/user/apply`, {firstname: user.firstname, lastname: user.lastname, phonenumber: user.phonenumber})
           setUserToken(null)
           Alert.alert("👍 Inscription complétée","Vous recevrez votre token par message,\ncela peut prendre plusieurs jours, merci de bien vouloir patienter...")
         }
@@ -61,20 +57,9 @@ export default function App() {
     }
   });
 
-
-  if (isLoading) {
-    return <Splash />;
-  }
-
   return (
     <AuthContext.Provider value={authContext}>
-      <NavigationContainer>
-        {isEmpty(userToken) ? (
-          <AuthStackScreen />
-        ) : (
-            <DrawerScreen />
-          )}
-      </NavigationContainer>
+      <Router />
     </AuthContext.Provider>
   );
 }

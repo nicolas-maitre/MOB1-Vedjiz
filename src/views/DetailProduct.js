@@ -1,7 +1,8 @@
 import React from 'react';
 import { View, Text, ScrollView, ImageBackground, Image, Alert, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Fontisto';
-import {ip, port} from "../components/Helpers"
+import {ip, port} from '../../app.json';
 
 export default function DetailProduct({ route }) {
     const { product } = route.params;
@@ -30,15 +31,17 @@ export default function DetailProduct({ route }) {
                     </ScrollView>
                     <View style={styles.providerGroup}>
                         <Text style={styles.providerTitle}>Fournisseur(s):</Text>
-                        <ScrollView style={styles.providers}>
-                            {/* {getProviders().map(provider => <Text>{provider}</Text>)} */}
-                            <Text style={styles.provider}>Provider One</Text>
-                            <Text style={styles.provider}>Provider Two</Text>
-                            <Text style={styles.provider}>Provider Three</Text>
-                            <Text style={styles.provider}>Provider Three</Text>
-                            <Text style={styles.provider}>Provider Three</Text>
-                            <Text style={[styles.provider, styles.noBorders]}>Provider Three</Text>
-                        </ScrollView>
+                        
+                        <FlatList style={styles.providers}
+                            data={product.suppliers}
+                            keyExtractor={(supplier) => supplier.pivot.supplier_id.toString()}
+                            ListEmptyComponent={
+                                <Text style={styles.error}>Aucun fournisseur pour ce produit</Text> 
+                            }
+                            renderItem={(supplier) => (                                
+                                <Text style={styles.provider}>{supplier.item.company_name}</Text>
+                            )}
+                        />
                     </View>                    
                     <View style={styles.market}>
                         <TouchableOpacity

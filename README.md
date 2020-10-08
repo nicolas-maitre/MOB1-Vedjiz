@@ -9,3 +9,6 @@
 - Open two terminals on the root of project
 - On the first writte `npm i && react-native start`
 - On other write `react-native run-android`
+
+# IMPORTANT
+modify on app.json your ip and port of api

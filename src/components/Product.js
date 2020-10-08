@@ -1,10 +1,12 @@
+import Axios from 'axios';
 import React from 'react';
 import { Text, View, Image, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
-import {ip, port} from "./Helpers"
+import {ip, port} from '../../app.json';
+import axios from 'axios'
+
 export default function Produc(props) {
     function getDetails({ navigation }, product) {
-        // Alert.alert("My product", JSON.stringify(product));
         navigation.navigate("DetailProduct", { product: product })
     }
     function addToMarket(product) {
@@ -17,7 +19,7 @@ export default function Produc(props) {
                 <Image style={styles.picture} source={{ uri: `http://${ip}:${port}/storage/pictures/${props.product.picture}` }} />
                 <View style={styles.informations}>
                     <Text style={styles.title} numberOfLines={2}>{props.product.name}</Text>
-                    <Text style={styles.lastUpdate} numberOfLines={1} ellipsizeMode="clip" >{props.product.updatedAt}</Text>
+                    <Text style={styles.lastUpdate} numberOfLines={1} ellipsizeMode="clip" >{props.product.updated_at}</Text>
                     <Text style={styles.description} ellipsizeMode="tail" numberOfLines={1}>{props.product.details}</Text>
                     <Text style={styles.stock} >📦 {props.product.stock} disponibles(s)</Text>
                     <Text style={styles.price} >💰 {props.product.price} CHF / {props.product.unit}</Text>
@@ -77,7 +79,7 @@ const styles = StyleSheet.create({
         position: "absolute",
         right: 15,
         top: 8,
-        width: 65,
+        width: 60,
         fontSize: 12,
         overflow: "hidden",
         color: "rgba(0, 0, 0, 0.6)"

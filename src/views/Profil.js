@@ -31,8 +31,8 @@ export default function Profil({ navigation }) {
             setIsLoading(true)
             setRefreshing(true)
             var myInformations = [];
-            var me  = await axios.get(`http://${ip}:${port}/api/me`, { headers: { Authorization: `Bearer ${userToken}` } })
-            var balance = await axios.get(`http://${ip}:${port}/api/me/balance`, { headers: { Authorization: `Bearer ${userToken}` } })
+            var me  = await axios.get(`/me`, { headers: { Authorization: `Bearer ${userToken}` } })
+            var balance = await axios.get(`/me/balance`, { headers: { Authorization: `Bearer ${userToken}` } })
             myInformations = me.data.data
             myInformations["balance"] = balance.data
 

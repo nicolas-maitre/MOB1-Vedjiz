@@ -4,23 +4,14 @@ import Styles from '../styles/Register_Login';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { isEmpty } from './Helpers';
 import { AuthContext } from './Context';
-import AsyncStorage from '@react-native-community/async-storage';
 
 export default function Login() {
     const [isHidden, setIsHidden] = React.useState(true);
     const [submitHover, setSubmitHover] = React.useState(false);
     const [token, setToken] = React.useState(null);
-    const { signIn, userToken } = React.useContext(AuthContext);
+    const { signIn } = React.useContext(AuthContext);
 
-
-    const fetchToken = async () => {
-        const value = await AsyncStorage.getItem('user_token');
-        if (value != null) {
-            login(value);
-            setToken(value)
-        }
-    };
-    fetchToken()
+    
     function showPassword() {
         setIsHidden(!isHidden);
     }
