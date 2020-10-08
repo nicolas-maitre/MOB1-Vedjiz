@@ -41,8 +41,8 @@ const profilStackScreen = ({ navigation }) => (
 const basketStack = createStackNavigator();
 const basketStackScreen = ({ navigation }) => (
     <basketStack.Navigator >
-        <basketStack.Screen name="Basket" component={Basket} options={{
-            title: "Basket",
+        <basketStack.Screen name="Panier" component={Basket} options={{
+            title: "Panier",
             headerLeft: () => (
                 <TouchableOpacity style={{ paddingLeft: 10, paddingTop: 5 }} onPress={() => navigation.openDrawer()}>
                     <Icon name='ios-menu' size={25} color='black' />
@@ -65,7 +65,7 @@ export const DrawerScreen = () => (
         }}
         drawerStyle={{ position: "absolute", top: 60 }} >
         <Drawer.Screen name="Profil" component={profilStackScreen} />
-        <Drawer.Screen name="Basket" component={basketStackScreen} />
+        <Drawer.Screen name="Panier" component={basketStackScreen} />
         <Drawer.Screen name="Magasin" component={ProductsStackScreen} />
     </Drawer.Navigator>
 );
