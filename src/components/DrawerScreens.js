@@ -8,6 +8,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import DetailProduct from '../views/DetailProduct';
 import List from '../views/ListOfProducts';
 import Profil from '../views/Profil';
+import Basket from '../views/Basket';
 
 const ProductsStack = createStackNavigator();
 const ProductsStackScreen = ({ navigation }) => (
@@ -37,6 +38,19 @@ const profilStackScreen = ({ navigation }) => (
         }} />
     </profilStack.Navigator>
 );
+const basketStack = createStackNavigator();
+const basketStackScreen = ({ navigation }) => (
+    <basketStack.Navigator >
+        <basketStack.Screen name="Basket" component={Basket} options={{
+            title: "Basket",
+            headerLeft: () => (
+                <TouchableOpacity style={{ paddingLeft: 10, paddingTop: 5 }} onPress={() => navigation.openDrawer()}>
+                    <Icon name='ios-menu' size={25} color='black' />
+                </TouchableOpacity>
+            )
+        }} />
+    </basketStack.Navigator>
+);
 
 const Drawer = createDrawerNavigator();
 export const DrawerScreen = () => (
@@ -51,6 +65,7 @@ export const DrawerScreen = () => (
         }}
         drawerStyle={{ position: "absolute", top: 60 }} >
         <Drawer.Screen name="Profil" component={profilStackScreen} />
+        <Drawer.Screen name="Basket" component={basketStackScreen} />
         <Drawer.Screen name="Magasin" component={ProductsStackScreen} />
     </Drawer.Navigator>
 );
