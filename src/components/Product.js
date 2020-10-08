@@ -19,7 +19,7 @@ export default function Produc(props) {
                 <Image style={styles.picture} source={{ uri: `http://${ip}:${port}/storage/pictures/${props.product.picture}` }} />
                 <View style={styles.informations}>
                     <Text style={styles.title} numberOfLines={2}>{props.product.name}</Text>
-                    <Text style={styles.lastUpdate} numberOfLines={1} ellipsizeMode="clip" >{props.product.updatedAt}</Text>
+                    <Text style={styles.lastUpdate} numberOfLines={1} ellipsizeMode="clip" >{props.product.updated_at}</Text>
                     <Text style={styles.description} ellipsizeMode="tail" numberOfLines={1}>{props.product.details}</Text>
                     <Text style={styles.stock} >📦 {props.product.stock} disponibles(s)</Text>
                     <Text style={styles.price} >💰 {props.product.price} CHF / {props.product.unit}</Text>
@@ -77,11 +77,12 @@ const styles = StyleSheet.create({
     },
     lastUpdate: {
         position: "absolute",
-        right: 200,
+        right: 15,
         top: 8,
-        width: 65,
+        width: 60,
         fontSize: 12,
-        elevation: 20,
+        overflow: "hidden",
+        color: "rgba(0, 0, 0, 0.6)"
     },
     description: {
         paddingTop: 15,
