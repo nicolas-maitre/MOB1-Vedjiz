@@ -9,6 +9,7 @@ import DetailProduct from '../views/DetailProduct';
 import List from '../views/ListOfProducts';
 import Profil from '../views/Profil';
 import Basket from '../views/Basket';
+import SummaryBasket from '../views/SummaryBasket';
 
 const ProductsStack = createStackNavigator();
 const ProductsStackScreen = ({ navigation }) => (
@@ -43,6 +44,14 @@ const basketStackScreen = ({ navigation }) => (
     <basketStack.Navigator >
         <basketStack.Screen name="Panier" component={Basket} options={{
             title: "Panier",
+            headerLeft: () => (
+                <TouchableOpacity style={{ paddingLeft: 10, paddingTop: 5 }} onPress={() => navigation.openDrawer()}>
+                    <Icon name='ios-menu' size={25} color='black' />
+                </TouchableOpacity>
+            )
+        }} />
+        <basketStack.Screen name="Résumé" component={SummaryBasket} options={{
+            title: "résumé du panier",
             headerLeft: () => (
                 <TouchableOpacity style={{ paddingLeft: 10, paddingTop: 5 }} onPress={() => navigation.openDrawer()}>
                     <Icon name='ios-menu' size={25} color='black' />

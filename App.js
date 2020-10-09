@@ -9,12 +9,25 @@ import Router from './src/router';
 export default function App() {
   const [isLoading, setIsLoading] = React.useState(false);
   const [userToken, setUserToken] = React.useState(null);
+  const [basket, setBasket] = React.useState(AsyncStorage.getItem('basket'));
 
   const authContext = React.useMemo(() => {
     return {
       isLoading,
       setIsLoading,
       userToken,
+      basket,
+      addToBasket: async (product) =>{
+        if(!basket) 
+          setBasket([])
+        if(basket.find( ({id}) => id == product.id))
+          return;
+        basket.push(product)
+        AsyncStorage.setItem('basket', basket)
+      },
+      sendBasketToAPI: async () =>{
+
+      },
       signIn: async (token) => {
         try{
           setIsLoading(true)
