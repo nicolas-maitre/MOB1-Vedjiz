@@ -63,7 +63,7 @@ const basketStackScreen = ({ navigation }) => (
 
 const Drawer = createDrawerNavigator();
 export const DrawerScreen = () => (
-    <Drawer.Navigator initialRouteName="Profil"
+    <Drawer.Navigator initialRouteName="Panier" //initialRouteName="Profil"
         drawerType="back"
         drawerContentOptions={{
             labelStyle: {

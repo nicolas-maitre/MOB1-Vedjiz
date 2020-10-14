@@ -3,15 +3,14 @@ import { View, Text, ScrollView, ImageBackground, Image, Alert, TouchableOpacity
 import { FlatList } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Fontisto';
 import {ip, port} from '../../app.json';
+import { AuthContext } from '../components/Context';
 
 export default function DetailProduct({ route }) {
     const { product } = route.params;
+    const { addToBasket, basket } = React.useContext(AuthContext);
 
-    function addToMarket(product) {
-        Alert.alert("Market", `${product.name} added to market`);
-    }
-    function getProviders() {
-
+    async function addToMarket(product) {
+        addToBasket(product)
     }
     return (
         <ImageBackground
@@ -38,8 +37,11 @@ export default function DetailProduct({ route }) {
                             ListEmptyComponent={
                                 <Text style={styles.error}>Aucun fournisseur pour ce produit</Text> 
                             }
-                            renderItem={(supplier) => (                                
-                                <Text style={styles.provider}>{supplier.item.company_name}</Text>
+                            renderItem={(supplier) => (  
+                                <View style={styles.provider}>
+                                    <Text>Compagnie: {supplier.item.company_name}</Text>
+                                    <Text>ville: {supplier.item.city}</Text>
+                                </View>                              
                             )}
                         />
                     </View>                    

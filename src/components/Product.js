@@ -4,13 +4,16 @@ import { Text, View, Image, TouchableOpacity, Alert, StyleSheet } from 'react-na
 import Icon from 'react-native-vector-icons/Fontisto';
 import {ip, port} from '../../app.json';
 import axios from 'axios'
+import { AuthContext } from '../components/Context';
+
 
 export default function Produc(props) {
+    const { addToBasket, basket } = React.useContext(AuthContext);
     function getDetails({ navigation }, product) {
         navigation.navigate("DetailProduct", { product: product })
     }
-    function addToMarket(product) {
-        Alert.alert("Market", `+1 ${product.name}`);
+    async function addToMarket(product) {
+        addToBasket(product)
     }
     const { navigation } = props;
     return (

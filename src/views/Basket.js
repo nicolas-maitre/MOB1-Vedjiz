@@ -1,31 +1,45 @@
 import React from 'react';
 import axios from 'axios';
-import { FlatList, View, ScrollView, ImageBackground, StyleSheet, Dimensions, Text, Image, TouchableOpacity, Alert, RefreshControl } from 'react-native';
+import { FlatList, View, ScrollView, ImageBackground, StyleSheet, Dimensions, Text, Image, TouchableOpacity, Alert, RefreshControl, Picker } from 'react-native';
+// import {Picker} from '@react-native-community/picker';
 
 import Splash from './Splash';
-import Product from "../components/Product";
+import BasketProduct from "../components/BasketProduct";
+import { AuthContext } from '../components/Context';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default function Basket(props) {
     const { navigation } = props;
-    const [isLoading, setIsLoading] = React.useState(true);
-    const [refreshing, setRefreshing] = React.useState(false);
-    const [products, setProducts] = React.useState(async () => getProducts());
+    const { addToBasket, basket } = React.useContext(AuthContext);
 
-    async function getProducts() {
+    const [isLoading, setIsLoading] = React.useState(false);
+    const [refreshing, setRefreshing] = React.useState(false);
+    const [pickerList, setPickerList] = React.useState([]);
+    React.useEffect(() => {
+        async function fetchData() {
+            await getProductsPickerList()
+        }
+        fetchData()
+    }, basket)
+    async function getProductsPickerList() {
         try {
-            setRefreshing(true)
-            setIsLoading(true)
             var res = await axios.get('/products')
-            setProducts(res.data.data)
+            let products = res.data.data
+            let basket = JSON.parse(await AsyncStorage.getItem('basketTest2'))
+            if (basket === null) {
+                setPickerList(products)
+            }
+            else {
+                let pickerListTemp = products.filter( product => {
+                    return !basket.find(({id}) => product.id == id)
+                })
+                setPickerList(pickerListTemp)
+            }
         }
         catch (e) {
             console.log(e.message)
             Alert.alert("😵 Erreur de connexion", "Une erreur est survenue lors de la connexion!\nMerci de vérifier que vous ayez bien une connexion internet...")
-            setProducts([])
-        }
-        finally {
-            setRefreshing(false)
-            setIsLoading(false)
+            setPickerList([])
         }
     }
 
@@ -38,19 +52,37 @@ export default function Basket(props) {
             style={styles.background}
             blurRadius={1}
         >
-
             <View>
-                <View style={{
-                    marginTop: 20,
-                    left: 10,
-                    width: Dimensions.get("window").width - 20,
-                    height: Dimensions.get("window").height - 120,
-                    backgroundColor: "rgba(200, 200, 200, 0.8)",
-                    padding: 40
-                }}>
-                    <Text style={styles.error}>Basket page, working in progress</Text>                            
-                </View>
+                <FlatList
+                    style={{height: Dimensions.get('window').height*0.6}}
+                    data={basket}
+                    keyExtractor={(product) => product.id.toString()}
+                    ListEmptyComponent={
+                        <View style={{
+                            flex: 1,
+                            height: Dimensions.get('window').height
+                        }}>
+                            <Text style={styles.error}>Veuillez tirer vers le bas pour raffraîchir la page</Text>                            
+                        </View>
+                    }
+                    renderItem={(product) => (
+                        <BasketProduct product={product.item}/>
+                    )}
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={getProductsPickerList}
+                        />
+                    }
+                />
+                <Text style={styles.pickerTitle}>Produits à ajouter: </Text>
+            {/* <Picker
+                        style={styles.picker}
+                        onValueChange={(value) => pickerValueChange(value)} >
+                        {pickerList}
+                    </Picker> */}
             </View>
+
         </ImageBackground>
     )
 }
@@ -61,7 +93,7 @@ const styles = StyleSheet.create({
         width: null,
         height: Dimensions.get('window').height,
     },
-    error:{
+    error: {
         flex: 1,
         color: 'white',
         fontSize: 20,
@@ -70,5 +102,27 @@ const styles = StyleSheet.create({
         textShadowColor: '#000',
         textShadowOffset: { width: 3, height: 3 },
         textShadowRadius: 7,
+    },
+    picker: {
+        borderWidth: 1,
+        borderTopColor: "rgba(0, 0, 0, 1)",
+        paddingTop: 20,
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+    },
+    pickerTitle: {
+
+        borderWidth: 1,
+        borderColor: "transparent",
+        borderTopColor: "rgba(0, 0, 0, 1)",
+        paddingTop: 20,
+        position: 'relative',
+        left: 0,
+        right: 0,
+        
+        fontSize: 20,
+        textDecorationLine: "underline",
     },
 });
