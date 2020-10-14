@@ -25,7 +25,6 @@ export default function Basket(props) {
         try {
             var res = await axios.get('/products')
             let products = res.data.data
-            let basket = JSON.parse(await AsyncStorage.getItem('basketTest2'))
             if (basket === null) {
                 setPickerList(products)
             }
