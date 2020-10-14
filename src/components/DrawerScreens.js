@@ -22,6 +22,11 @@ const ProductsStackScreen = ({ navigation }) => (
                 <TouchableOpacity style={{ paddingLeft: 10, paddingTop: 5 }} onPress={() => navigation.openDrawer()}>
                     <Icon name='ios-menu' size={25} color='black' />
                 </TouchableOpacity>
+            ),
+            headerRight: () => (
+                <TouchableOpacity style={{ paddingRight: 10, paddingTop: 5 }} onPress={() => navigation.navigate("Panier")}>
+                    <Icon name='basket' size={25} color='black' />
+                </TouchableOpacity>
             )
         }} />
         <ProductsStack.Screen name="DetailProduct" component={DetailProduct} options={({ route }) => ({ title: route.params.product.name })} />
@@ -36,6 +41,11 @@ const profilStackScreen = ({ navigation }) => (
             headerLeft: () => (
                 <TouchableOpacity style={{ paddingLeft: 10, paddingTop: 5 }} onPress={() => navigation.openDrawer()}>
                     <Icon name='ios-menu' size={25} color='black' />
+                </TouchableOpacity>
+            ),
+            headerRight: () => (
+                <TouchableOpacity style={{ paddingRight: 10, paddingTop: 5 }} onPress={() => navigation.navigate("Panier")}>
+                    <Icon name='basket' size={25} color='black' />
                 </TouchableOpacity>
             )
         }} />
