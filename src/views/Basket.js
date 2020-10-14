@@ -20,7 +20,7 @@ export default function Basket(props) {
             await getProductsPickerList()
         }
         fetchData()
-    }, basket)
+    }, [basket])
     async function getProductsPickerList() {
         try {
             var res = await axios.get('/products')

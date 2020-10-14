@@ -15,7 +15,7 @@ export default function App() {
   React.useEffect(() => {
     async function fetchData()
     {
-      let basket = JSON.parse(await AsyncStorage.getItem('basketTest2'))
+      let basket = JSON.parse(await AsyncStorage.getItem('@basket'))
       setBasket(basket)     
     }
     fetchData()
@@ -28,7 +28,7 @@ export default function App() {
       userToken,
       basket,
       addToBasket: async (product) => {
-        let basket = JSON.parse(await AsyncStorage.getItem('basketTest2'))
+        let basket = JSON.parse(await AsyncStorage.getItem('@basket'))
         if (basket === null)
         basket = []
         
@@ -38,18 +38,23 @@ export default function App() {
         }
         
         basket.push(product)
-        await AsyncStorage.setItem('basketTest2', JSON.stringify(basket))   
+        await AsyncStorage.setItem('@basket', JSON.stringify(basket))   
         setBasket(basket)     
         Alert.alert("Market 👍", `Ajout de ${product.name} au panier`);
       },
       removeOnBasket: async (product) => {
-        let basket = JSON.parse(await AsyncStorage.getItem('basketTest2'))
+        let basket = JSON.parse(await AsyncStorage.getItem('@basket'))
         
         basket = basket.filter(({id}) => id != product.id)
         
-        await AsyncStorage.setItem('basketTest2', JSON.stringify(basket))   
+        await AsyncStorage.setItem('@basket', JSON.stringify(basket))   
         setBasket(basket)     
         Alert.alert("Market 😲", `Le produit ${product.name} a été retiré`);
+      },
+      removeBasket: async () => {
+        
+        await AsyncStorage.setItem('@basket', JSON.stringify([]))   
+        setBasket([])     
       },
       sendBasketToAPI: async () => {
 

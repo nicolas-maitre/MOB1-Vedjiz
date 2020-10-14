@@ -10,6 +10,8 @@ import List from '../views/ListOfProducts';
 import Profil from '../views/Profil';
 import Basket from '../views/Basket';
 import SummaryBasket from '../views/SummaryBasket';
+import AsyncStorage from '@react-native-community/async-storage';
+import { AuthContext } from './Context';
 
 const ProductsStack = createStackNavigator();
 const ProductsStackScreen = ({ navigation }) => (
@@ -40,7 +42,10 @@ const profilStackScreen = ({ navigation }) => (
     </profilStack.Navigator>
 );
 const basketStack = createStackNavigator();
-const basketStackScreen = ({ navigation }) => (
+const basketStackScreen = ({ navigation }) => {
+    
+    const { removeBasket } = React.useContext(AuthContext);
+    return (
     <basketStack.Navigator >
         <basketStack.Screen name="Panier" component={Basket} options={{
             title: "Panier",
@@ -48,7 +53,12 @@ const basketStackScreen = ({ navigation }) => (
                 <TouchableOpacity style={{ paddingLeft: 10, paddingTop: 5 }} onPress={() => navigation.openDrawer()}>
                     <Icon name='ios-menu' size={25} color='black' />
                 </TouchableOpacity>
-            )
+            ),
+            headerRight: () => (
+                <TouchableOpacity style={{ paddingRight: 10, paddingTop: 5 }} onPress={() => removeBasket()}>
+                    <Icon name='remove-circle-sharp' size={25} color='black' />
+                </TouchableOpacity>
+            ),
         }} />
         <basketStack.Screen name="Résumé" component={SummaryBasket} options={{
             title: "résumé du panier",
@@ -59,7 +69,7 @@ const basketStackScreen = ({ navigation }) => (
             )
         }} />
     </basketStack.Navigator>
-);
+)};
 
 const Drawer = createDrawerNavigator();
 export const DrawerScreen = () => (
