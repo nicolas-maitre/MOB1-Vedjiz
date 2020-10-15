@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import { FlatList, View, ScrollView, ImageBackground, StyleSheet, Dimensions, Text, Image, TouchableOpacity, Alert, RefreshControl, Picker } from 'react-native';
-// import {Picker} from '@react-native-community/picker';
+import { FlatList, View, ScrollView, ImageBackground, StyleSheet, Dimensions, Text, Image, TouchableOpacity, Alert, RefreshControl } from 'react-native';
+import { Picker } from '@react-native-community/picker';
 
 import Splash from './Splash';
 import BasketProduct from "../components/BasketProduct";
@@ -9,12 +9,12 @@ import { AuthContext } from '../components/Context';
 import AsyncStorage from '@react-native-community/async-storage';
 
 export default function Basket(props) {
-    const { navigation } = props;
-    const { addToBasket, basket } = React.useContext(AuthContext);
-
+    const { basket } = React.useContext(AuthContext);
     const [isLoading, setIsLoading] = React.useState(false);
     const [refreshing, setRefreshing] = React.useState(false);
     const [pickerList, setPickerList] = React.useState([]);
+    const [pickerValue, setPickerValue] = React.useState(null);
+
     React.useEffect(() => {
         async function fetchData() {
             await getProductsPickerList()
@@ -29,8 +29,8 @@ export default function Basket(props) {
                 setPickerList(products)
             }
             else {
-                let pickerListTemp = products.filter( product => {
-                    return !basket.find(({id}) => product.id == id)
+                let pickerListTemp = products.filter(product => {
+                    return !basket.find(({ id }) => product.id == id)
                 })
                 setPickerList(pickerListTemp)
             }
@@ -41,7 +41,7 @@ export default function Basket(props) {
             setPickerList([])
         }
     }
-
+    
     if (isLoading) {
         return <Splash />;
     }
@@ -51,9 +51,9 @@ export default function Basket(props) {
             style={styles.background}
             blurRadius={1}
         >
-            <View style={pickerList.length > 0 ?{height: Dimensions.get('window').height*0.6} : null} >
+            <View style={pickerList.length > 0 ? { height: Dimensions.get('window').height * 0.6 } : null} >
                 <FlatList
-                    
+
                     data={basket}
                     keyExtractor={(product) => product.id.toString()}
                     ListEmptyComponent={
@@ -61,11 +61,11 @@ export default function Basket(props) {
                             flex: 1,
                             height: Dimensions.get('window').height
                         }}>
-                            <Text style={styles.error}>Veuillez tirer vers le bas pour raffraîchir la page</Text>                            
+                            <Text style={styles.error}>Veuillez tirer vers le bas pour raffraîchir la page</Text>
                         </View>
                     }
                     renderItem={(product) => (
-                        <BasketProduct product={product.item}/>
+                        <BasketProduct product={product.item} />
                     )}
                     refreshControl={
                         <RefreshControl
@@ -75,17 +75,17 @@ export default function Basket(props) {
                     }
                 />
             </View>
-            <View>                
-            <Text style={styles.pickerTitle}>Produits à ajouter: </Text>
+            <View>
+                <Text style={styles.pickerTitle}>Produits à ajouter: </Text>
                 {pickerList.length > 0 ? (
                     <Picker
                         style={styles.picker}
-                        onValueChange={(value) => pickerValueChange(value)} >
+                        onValueChange={(value) => setPickerValue(value)} >
                         {pickerList.map((product) => (
-                            <Picker.item 
-                            label={product.name} 
-                            value={product} 
-                            key={product.id}/>
+                            <Picker.item
+                                label={product.name}
+                                value={product}
+                            />
                         ))}
                     </Picker>
                 ) : null}
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         left: 0,
         right: 0,
-        
+
         fontSize: 20,
         textDecorationLine: "underline",
     },
