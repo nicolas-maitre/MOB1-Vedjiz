@@ -51,9 +51,9 @@ export default function Basket(props) {
             style={styles.background}
             blurRadius={1}
         >
-            <View>
+            <View style={pickerList.length > 0 ?{height: Dimensions.get('window').height*0.6} : null} >
                 <FlatList
-                    style={{height: Dimensions.get('window').height*0.6}}
+                    
                     data={basket}
                     keyExtractor={(product) => product.id.toString()}
                     ListEmptyComponent={
@@ -74,14 +74,22 @@ export default function Basket(props) {
                         />
                     }
                 />
-                <Text style={styles.pickerTitle}>Produits à ajouter: </Text>
-            {/* <Picker
+            </View>
+            <View>                
+            <Text style={styles.pickerTitle}>Produits à ajouter: </Text>
+                {pickerList.length > 0 ? (
+                    <Picker
                         style={styles.picker}
                         onValueChange={(value) => pickerValueChange(value)} >
-                        {pickerList}
-                    </Picker> */}
+                        {pickerList.map((product) => (
+                            <Picker.item 
+                            label={product.name} 
+                            value={product} 
+                            key={product.id}/>
+                        ))}
+                    </Picker>
+                ) : null}
             </View>
-
         </ImageBackground>
     )
 }

@@ -6,11 +6,23 @@ import { AuthContext } from '../components/Context';
 
 
 export default function BasketProduct(props) {
-    const { removeOnBasket, basket } = React.useContext(AuthContext);
-    const [value, setValue] = React.useState("1")
+    const { removeOnBasket, updateBasketProduct, basket } = React.useContext(AuthContext);
+    const [quantity, setQuantity] = React.useState(props.product.quantity)
 
     async function removeFromBasket(product) {
         removeOnBasket(product)
+    }
+    async function updateQuantity(quantity){
+
+        if(Number(quantity) <= 0)
+        {
+            setQuantity(quantity)
+            return
+        }
+
+        setQuantity(quantity)        
+        props.product.quantity = quantity
+        updateBasketProduct(props.product)
     }
     const { navigation } = props;
     return (
@@ -26,8 +38,8 @@ export default function BasketProduct(props) {
                     style={styles.textInput}
                     placeholderTextColor="rgb(180, 180, 180)"
                     keyboardType="numeric"
-                    value={value}
-                    onChangeText={setValue}
+                    value={quantity}
+                    onChangeText={updateQuantity}
                 />
             </View>
             <View style={styles.trash}>

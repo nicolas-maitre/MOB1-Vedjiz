@@ -36,11 +36,17 @@ export default function App() {
           Alert.alert("Market 😶", `le produit '${product.name}' est déjà présent dans votre panier`);
           return;
         }
-        
+        product.quantity = "1"
         basket.push(product)
         await AsyncStorage.setItem('@basket', JSON.stringify(basket))   
         setBasket(basket)     
         Alert.alert("Market 👍", `Ajout de ${product.name} au panier`);
+      },
+      updateBasketProduct: async (product) => {
+        let basket = JSON.parse(await AsyncStorage.getItem('@basket'))
+        basket.find(({ id }) => id == product.id).quantity = product.quantity
+        console.log(basket.find(({ id }) => id == product.id))
+        await AsyncStorage.setItem('@basket', JSON.stringify(basket))  
       },
       removeOnBasket: async (product) => {
         let basket = JSON.parse(await AsyncStorage.getItem('@basket'))
