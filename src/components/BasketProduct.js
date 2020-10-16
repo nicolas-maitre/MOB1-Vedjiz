@@ -15,11 +15,10 @@ export default function BasketProduct(props) {
     async function removeFromBasket(product) {
         removeOnBasket(product)
     }
-    async function updateQuantity(quantity){
-
-        if(Number(quantity) <= 0)
+    function updateQuantity(quantity){
+        if(isNaN(quantity) || quantity<0)
         {
-            setQuantity(quantity)
+            setQuantity(props.product.quantity)
             return
         }
 
