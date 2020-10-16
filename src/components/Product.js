@@ -14,6 +14,7 @@ export default function Produc(props) {
     }
     async function addToMarket(product) {
         addToBasket(product)
+        Alert.alert("Market 👍", `Ajout de ${product.name} au panier`);
     }
     const { navigation } = props;
     return (

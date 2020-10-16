@@ -8,7 +8,10 @@ import { AuthContext } from '../components/Context';
 export default function BasketProduct(props) {
     const { removeOnBasket, updateBasketProduct, basket } = React.useContext(AuthContext);
     const [quantity, setQuantity] = React.useState(props.product.quantity)
-
+    React.useEffect(() => {
+        if(props.product.quantity == undefined)
+            updateQuantity(1)
+    }, [])
     async function removeFromBasket(product) {
         removeOnBasket(product)
     }
@@ -33,7 +36,7 @@ export default function BasketProduct(props) {
                 <Text>💰 {props.product.price} CHF / {props.product.unit}</Text>
             </View>
             <View style={styles.quantity}>
-                <Text style={styles.label}>Quantitée:</Text>
+                <Text style={styles.label}>Quantité:</Text>
                 <TextInput
                     style={styles.textInput}
                     placeholderTextColor="rgb(180, 180, 180)"

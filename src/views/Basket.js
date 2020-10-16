@@ -5,11 +5,12 @@ import { Picker } from '@react-native-community/picker';
 
 import Splash from './Splash';
 import BasketProduct from "../components/BasketProduct";
+import TotalPriceBasket from "../components/TotalPriceBasket";
 import { AuthContext } from '../components/Context';
 import AsyncStorage from '@react-native-community/async-storage';
 
 export default function Basket(props) {
-    const { basket } = React.useContext(AuthContext);
+    const { basket, addToBasket, products } = React.useContext(AuthContext);
     const [isLoading, setIsLoading] = React.useState(false);
     const [refreshing, setRefreshing] = React.useState(false);
     const [pickerList, setPickerList] = React.useState([]);
@@ -41,7 +42,11 @@ export default function Basket(props) {
             setPickerList([])
         }
     }
-    
+    async function addProduct(id) {
+        var res = await axios.get(`/products/${id}`)
+        let product = res.data.data
+        addToBasket(product)
+    }
     if (isLoading) {
         return <Splash />;
     }
@@ -51,9 +56,11 @@ export default function Basket(props) {
             style={styles.background}
             blurRadius={1}
         >
-            <View style={pickerList.length > 0 ? { height: Dimensions.get('window').height * 0.6 } : null} >
-                <FlatList
+            <View>
 
+                <TotalPriceBasket />
+                <FlatList
+                    style={pickerList.length > 0 ? { height: Dimensions.get('window').height * 0.65 } : { height: Dimensions.get('window').height * 0.7 }}
                     data={basket}
                     keyExtractor={(product) => product.id.toString()}
                     ListEmptyComponent={
@@ -75,26 +82,54 @@ export default function Basket(props) {
                     }
                 />
             </View>
-            <View>
-                <Text style={styles.pickerTitle}>Produits à ajouter: </Text>
+            <View style={{position:"absolute", bottom:0, width: "100%"}}>
                 {pickerList.length > 0 ? (
                     <Picker
                         style={styles.picker}
-                        onValueChange={(value) => setPickerValue(value)} >
+                        onValueChange={(value) => addProduct(value)} >
+                            <Picker.item
+                                label="Selectionnez un produit"
+                                value="-1"
+                                key="-1"/>
                         {pickerList.map((product) => (
                             <Picker.item
                                 label={product.name}
-                                value={product}
+                                value={product.id}
+                                key={String(product.id)}
                             />
                         ))}
                     </Picker>
                 ) : null}
+                <TouchableOpacity style={[styles.container, styles.backgroundButtonPaid]}>
+                    <Text style={styles.text}>PAYER</Text>
+                </TouchableOpacity>
             </View>
         </ImageBackground>
     )
 }
 
 const styles = StyleSheet.create({
+    
+    backgroundButtonPaid: {
+        backgroundColor: "rgba(150, 150, 255, 0.8)",
+        borderColor: 'transparent',
+        marginTop: 3,
+        borderWidth: 1,
+        color: 'white',
+        borderRadius: 1,
+        shadowColor: 'black',
+        shadowOpacity: 10,
+        elevation: 2,
+        padding: 10,
+    },
+    container: {
+        padding: 20,
+    },
+    text: {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 20
+    },
     background: {
         flex: 1,
         width: null,
@@ -111,10 +146,11 @@ const styles = StyleSheet.create({
         textShadowRadius: 7,
     },
     picker: {
+        backgroundColor: "rgba(200, 200, 200, 0.8)",
         borderWidth: 1,
         borderTopColor: "rgba(0, 0, 0, 1)",
         paddingTop: 20,
-        position: 'absolute',
+        position: 'relative',
         bottom: 0,
         left: 0,
         right: 0,

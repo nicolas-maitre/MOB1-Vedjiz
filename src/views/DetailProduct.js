@@ -11,6 +11,7 @@ export default function DetailProduct({ route }) {
 
     async function addToMarket(product) {
         addToBasket(product)
+        Alert.alert("Market 👍", `Ajout de ${product.name} au panier`);
     }
     return (
         <ImageBackground
