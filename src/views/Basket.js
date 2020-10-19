@@ -11,10 +11,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 
 export default function Basket(props) {
     const { basket, addToBasket, products } = React.useContext(AuthContext);
-    const [isLoading, setIsLoading] = React.useState(false);
+    const { navigation } = props;
     const [refreshing, setRefreshing] = React.useState(false);
     const [pickerList, setPickerList] = React.useState([]);
-    const [pickerValue, setPickerValue] = React.useState(null);
 
     React.useEffect(() => {
         async function fetchData() {
@@ -47,8 +46,21 @@ export default function Basket(props) {
         let product = res.data.data
         addToBasket(product)
     }
-    if (isLoading) {
-        return <Splash />;
+    async function sendBasket() {
+        try {
+            if (basket.length < 1 || basket.find(({ quantity }) => quantity == 0))
+                return
+            else {
+                var list = []
+                basket.forEach(({ id, quantity }) => {
+                    list = [...list, {product_id: id, quantity: quantity}]
+                });
+                axios.post("/baskets", {purchases: list})
+                navigation.navigate("Résumé")
+            }
+        } catch (error) {
+            Alert.alert("", error)
+        }
     }
     return (
         <ImageBackground
@@ -57,7 +69,6 @@ export default function Basket(props) {
             blurRadius={1}
         >
             <View>
-
                 <TotalPriceBasket />
                 <FlatList
                     style={pickerList.length > 0 ? { height: Dimensions.get('window').height * 0.65 } : { height: Dimensions.get('window').height * 0.7 }}
@@ -82,15 +93,15 @@ export default function Basket(props) {
                     }
                 />
             </View>
-            <View style={{position:"absolute", bottom:0, width: "100%"}}>
+            <View style={{ position: "absolute", bottom: 0, width: "100%" }}>
                 {pickerList.length > 0 ? (
                     <Picker
                         style={styles.picker}
                         onValueChange={(value) => addProduct(value)} >
-                            <Picker.item
-                                label="Selectionnez un produit"
-                                value="-1"
-                                key="-1"/>
+                        <Picker.item
+                            label="Selectionnez un produit"
+                            value="-1"
+                            key="-1" />
                         {pickerList.map((product) => (
                             <Picker.item
                                 label={product.name}
@@ -100,7 +111,7 @@ export default function Basket(props) {
                         ))}
                     </Picker>
                 ) : null}
-                <TouchableOpacity style={[styles.container, styles.backgroundButtonPaid]}>
+                <TouchableOpacity style={[styles.container, styles.backgroundButtonPaid]} onPress={() => sendBasket()}>
                     <Text style={styles.text}>PAYER</Text>
                 </TouchableOpacity>
             </View>
@@ -109,7 +120,7 @@ export default function Basket(props) {
 }
 
 const styles = StyleSheet.create({
-    
+
     backgroundButtonPaid: {
         backgroundColor: "rgba(150, 150, 255, 0.8)",
         borderColor: 'transparent',

@@ -6,6 +6,7 @@ import { AuthContext } from '../components/Context';
 
 
 export default function BasketProduct(props) {
+    const { navigation } = props;
     const { removeOnBasket, updateBasketProduct, basket } = React.useContext(AuthContext);
     const [quantity, setQuantity] = React.useState(props.product.quantity)
     React.useEffect(() => {
@@ -26,7 +27,6 @@ export default function BasketProduct(props) {
         props.product.quantity = quantity
         updateBasketProduct(props.product)
     }
-    const { navigation } = props;
     return (
         <View style={[styles.background, styles.product]}>
             <Image style={styles.picture} source={{ uri: `http://${ip}:${port}/storage/pictures/${props.product.picture}` }} />

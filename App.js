@@ -62,9 +62,6 @@ export default function App() {
         await AsyncStorage.setItem('@basket', JSON.stringify([]))   
         setBasket([])     
       },
-      sendBasketToAPI: async () => {
-
-      },
       signIn: async (token) => {
         try {
           setIsLoading(true)
