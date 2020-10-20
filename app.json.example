@@ -1,0 +1,6 @@
+{
+  "name": "vedjiz",
+  "displayName": "vedjiz",
+  "ip": "ip of the API",
+  "port": "port of the API, default is 80"
+}
