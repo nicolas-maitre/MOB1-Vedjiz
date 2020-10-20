@@ -29,11 +29,12 @@ export default function BasketProduct(props) {
     }
     return (
         <View style={[styles.background, styles.product]}>
-            <Image style={styles.picture} source={{ uri: `http://${ip}:${port}/storage/pictures/${props.product.picture}` }} />
+            <Image style={props.summary ? styles.pictureSummary : styles.picture} source={{ uri: `http://${ip}:${port}/storage/pictures/${props.product.picture}` }} />
             <View style={styles.informations}>
                 <Text style={styles.title} numberOfLines={2}>{props.product.name}</Text>
                 <Text>💰 {props.product.price} CHF / {props.product.unit}</Text>
             </View>
+            { props.summary ? null : (
             <View style={styles.quantity}>
                 <Text style={styles.label}>Quantité:</Text>
                 <TextInput
@@ -43,13 +44,14 @@ export default function BasketProduct(props) {
                     value={quantity}
                     onChangeText={updateQuantity}
                 />
-            </View>
+            </View> )}
+            { props.summary ? null : (
             <View style={styles.trash}>
                 <TouchableOpacity
                     onPress={() => removeFromBasket(props.product)}>
                     <Icon name="trash" size={26} />
                 </TouchableOpacity>
-            </View>
+            </View> )}
         </View>
     )
 }
@@ -69,6 +71,15 @@ const styles = StyleSheet.create({
     },
     product: {
         flex: 1,
+    },
+    pictureSummary: {
+        borderColor: "rgba(0, 0, 0, 0.2)", 
+        backgroundColor: "white",
+        borderWidth: 1,
+        top: 5,
+        width: 65,
+        height: 65,
+        borderRadius: 100,
     },
     picture: {
         borderColor: "rgba(0, 0, 0, 0.2)", 
