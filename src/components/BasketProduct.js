@@ -33,6 +33,7 @@ export default function BasketProduct(props) {
             <View style={styles.informations}>
                 <Text style={styles.title} numberOfLines={2}>{props.product.name}</Text>
                 <Text>💰 {props.product.price} CHF / {props.product.unit}</Text>
+                { props.summary ? (<Text style={styles.label}>Quantité: {Number(props.product.quantity).toFixed(2)}</Text>) : null}
             </View>
             { props.summary ? null : (
             <View style={styles.quantity}>
