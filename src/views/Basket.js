@@ -92,12 +92,12 @@ export default function Basket(props) {
                     <Picker
                         style={styles.picker}
                         onValueChange={(value) => addProduct(value)} >
-                        <Picker.item
+                        <Picker.Item
                             label="Selectionnez un produit"
                             value="-1"
-                            key="-1" />
+                            key="0" />
                         {pickerList.map((product) => (
-                            <Picker.item
+                            <Picker.Item
                                 label={product.name}
                                 value={product.id}
                                 key={String(product.id)}
