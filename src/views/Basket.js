@@ -106,7 +106,7 @@ export default function Basket(props) {
                     </Picker>
                 ) : null}
                 <TouchableOpacity style={[styles.container, styles.backgroundButtonPaid]} onPress={() => sendBasket()}>
-                    <Text style={styles.text}>PAYER</Text>
+                    <Text style={styles.text}>Résumé de la commande</Text>
                 </TouchableOpacity>
             </View>
         </ImageBackground>
