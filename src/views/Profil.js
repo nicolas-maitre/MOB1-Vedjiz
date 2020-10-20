@@ -8,9 +8,9 @@ import { AuthContext } from '../components/Context';
 import Splash from './Splash';
 axios.defaults.timeout = 500;
 
-export default function Profil({ navigation }) {  
+export default function Profil({ navigation }) {
     const { signOut, userToken } = React.useContext(AuthContext);
-    
+
     const [isLoading, setIsLoading] = React.useState(true);
     const [refreshing, setRefreshing] = React.useState(false);
     const [error, setError] = React.useState(true);
@@ -18,20 +18,20 @@ export default function Profil({ navigation }) {
 
 
     React.useEffect(() => {
-        async function fetchData() {
+        const unsubscribe = navigation.addListener('focus', async () => {
             setIsLoading(true)
             await getMyData()
             setIsLoading(false)
-        }
-        fetchData();
-    }, []);
-    
-    async function getMyData() {        
-        try{
+        });
+        return unsubscribe;
+    }, [navigation]);
+
+    async function getMyData() {
+        try {
             setIsLoading(true)
             setRefreshing(true)
             var myInformations = [];
-            var me  = await axios.get(`/me`, { headers: { Authorization: `Bearer ${userToken}` } })
+            var me = await axios.get(`/me`, { headers: { Authorization: `Bearer ${userToken}` } })
             var balance = await axios.get(`/me/balance`, { headers: { Authorization: `Bearer ${userToken}` } })
             myInformations = me.data.data
             myInformations["balance"] = balance.data
@@ -47,30 +47,30 @@ export default function Profil({ navigation }) {
         finally {
             setRefreshing(false)
             setIsLoading(false)
-        }   
+        }
     }
     if (isLoading) {
         return <Splash />;
     }
-    if(error){
+    if (error) {
         return (
             <ImageBackground
                 source={require('../pictures/Moutains.jpg')}
                 style={styles.background}
                 blurRadius={1}
             >
-            <ScrollView
-                refreshControl={
-                    <RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={getMyData}
-                    />
-                }
-            >
-                <Text style={styles.error}>Veuillez tirer vers le bas pour raffraîchir la page</Text>  
-            </ScrollView>
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl
+                            refreshing={refreshing}
+                            onRefresh={getMyData}
+                        />
+                    }
+                >
+                    <Text style={styles.error}>Veuillez tirer vers le bas pour raffraîchir la page</Text>
+                </ScrollView>
             </ImageBackground>
-          );
+        );
     }
     return (
         <ImageBackground
@@ -78,15 +78,15 @@ export default function Profil({ navigation }) {
             style={styles.background}
             blurRadius={1}
         >
-            <View style={styles.userBackground}>         
+            <View style={styles.userBackground}>
                 <Text style={styles.title}>{me.firstname} {me.lastname}</Text>
                 <Text style={styles.info}>💰balance:</Text>
                 <Text style={styles.cash}>💵 Débit: {me.balance.debit}</Text>
                 <Text style={styles.cash}>💰 Crédit: {me.balance.credit}</Text>
-                <TouchableOpacity  onPress={()=>navigation.navigate("Magasin")}>
+                <TouchableOpacity onPress={() => navigation.navigate("Magasin")}>
                     <Text style={styles.back}>Aller au Magasin</Text>
                 </TouchableOpacity>
-                <TouchableOpacity  onPress={()=>signOut()}>
+                <TouchableOpacity onPress={() => signOut()}>
                     <Text style={[styles.back, styles.logout]}>Déconnexion</Text>
                 </TouchableOpacity>
             </View>
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
         backgroundColor: "rgba(200, 200, 200, 0.8)",
         padding: 40
     },
-    title: { 
+    title: {
         width: '100%',
         fontSize: 30,
         textAlign: 'center',
@@ -123,14 +123,14 @@ const styles = StyleSheet.create({
         lineHeight: 150,
         fontSize: 30,
     },
-    cash: {        
+    cash: {
         width: "100%",
         textAlign: 'center',
         fontSize: 25,
     },
     back: {
         backgroundColor: "rgba(150, 150, 150, 0.8)",
-        borderRadius: 20, 
+        borderRadius: 20,
         marginTop: 20,
         padding: 30,
         width: "100%",
@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
     logout: {
         backgroundColor: "rgba(150, 0, 0, 0.8)",
     },
-    error: {        
+    error: {
         flex: 1,
         color: 'white',
         fontSize: 20,
