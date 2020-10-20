@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Text, View, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/Ionicons';
 import { AuthContext } from './Context';
 
 export default function Login() {
@@ -21,7 +20,6 @@ export default function Login() {
     return (
         <View style={[styles.container, styles.background]}>
             <Text style={styles.price}>{price.toFixed(2)}</Text>
-            <Icon></Icon>
         </View>
     )
 }
