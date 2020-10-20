@@ -2,36 +2,29 @@ import React from 'react';
 import axios from 'axios';
 import { FlatList, View, ScrollView, ImageBackground, StyleSheet, Dimensions, Text, Image, TouchableOpacity, Alert, RefreshControl } from 'react-native';
 
-import Splash from './Splash';
-import Product from "../components/Product";
+import BasketProduct from "../components/BasketProduct";
+import TotalPriceBasket from "../components/TotalPriceBasket";
+import { AuthContext } from '../components/Context';
 
 export default function Basket(props) {
+    const { basket, removeBasket } = React.useContext(AuthContext);
     const { navigation } = props;
-    const [isLoading, setIsLoading] = React.useState(true);
-    const [refreshing, setRefreshing] = React.useState(false);
-    const [products, setProducts] = React.useState(async () => getProducts());
-
-    async function getProducts() {
+    
+    async function sendBasket() {
         try {
-            setRefreshing(true)
-            setIsLoading(true)
-            var res = await axios.get('/products')
-            setProducts(res.data.data)
-        }
-        catch (e) {
-            console.log(e.message)
-            Alert.alert("😵 Erreur de connexion", "Une erreur est survenue lors de la connexion!\nMerci de vérifier que vous ayez bien une connexion internet...")
-            setProducts([])
-        }
-        finally {
-            setRefreshing(false)
-            setIsLoading(false)
+                var list = []
+                basket.forEach(({ id, quantity }) => {
+                    list = [...list, { product_id: id, quantity: quantity }]
+                });
+                axios.post("/baskets", { purchases: list })
+                removeBasket()
+                navigation.navigate("Panier")
+                navigation.navigate("Profil")
+        } catch (error) {
+            Alert.alert("😨 Error panier", "Veuillez re-éssayer dans quelques instants,\nIl se peut qu'un problème de connection soit le problème")
         }
     }
 
-    if (isLoading) {
-        return <Splash />;
-    }
     return (
         <ImageBackground
             source={require('../pictures/Moutains.jpg')}
@@ -39,18 +32,27 @@ export default function Basket(props) {
             blurRadius={1}
         >
 
-            <View>
-                <View style={{
-                    marginTop: 20,
-                    left: 10,
-                    width: Dimensions.get("window").width - 20,
-                    height: Dimensions.get("window").height - 120,
-                    backgroundColor: "rgba(200, 200, 200, 0.8)",
-                    padding: 40
-                }}>
-                    <Text style={styles.error}>Basket page, working in progress</Text>                            
-                </View>
+            <View style={{ height: Dimensions.get('window').height * 0.8 }}>
+                <TotalPriceBasket />
+                <FlatList
+                    data={basket}
+                    keyExtractor={(product) => product.id.toString()}
+                    ListEmptyComponent={
+                        <View style={{
+                            flex: 1,
+                            height: Dimensions.get('window').height
+                        }}>
+                            <Text style={styles.error}>Veuillez tirer vers le bas pour raffraîchir la page</Text>
+                        </View>
+                    }
+                    renderItem={(product) => (
+                        <BasketProduct product={product.item} summary={true} />
+                    )}
+                />
             </View>
+                <TouchableOpacity style={[styles.container, styles.backgroundButtonPaid]} onPress={() => sendBasket() }>
+                    <Text style={styles.text}>PAYER</Text>
+                </TouchableOpacity>
         </ImageBackground>
     )
 }
@@ -61,7 +63,7 @@ const styles = StyleSheet.create({
         width: null,
         height: Dimensions.get('window').height,
     },
-    error:{
+    error: {
         flex: 1,
         color: 'white',
         fontSize: 20,
@@ -70,5 +72,25 @@ const styles = StyleSheet.create({
         textShadowColor: '#000',
         textShadowOffset: { width: 3, height: 3 },
         textShadowRadius: 7,
+    },
+    backgroundButtonPaid: {
+        backgroundColor: "rgba(150, 150, 255, 0.8)",
+        borderColor: 'transparent',
+        marginTop: 3,
+        borderWidth: 1,
+        color: 'white',
+        borderRadius: 1,
+        shadowColor: 'black',
+        shadowOpacity: 10,
+        elevation: 2,
+        padding: 10,
+    },
+    container: {
+        padding: 20,
+    },
+    text: {
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: 20
     },
 });

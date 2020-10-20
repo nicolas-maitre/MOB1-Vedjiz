@@ -3,11 +3,9 @@ import axios from 'axios';
 import { FlatList, View, ScrollView, ImageBackground, StyleSheet, Dimensions, Text, Image, TouchableOpacity, Alert, RefreshControl } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 
-import Splash from './Splash';
 import BasketProduct from "../components/BasketProduct";
 import TotalPriceBasket from "../components/TotalPriceBasket";
 import { AuthContext } from '../components/Context';
-import AsyncStorage from '@react-native-community/async-storage';
 
 export default function Basket(props) {
     const { basket, addToBasket, products } = React.useContext(AuthContext);
@@ -51,15 +49,11 @@ export default function Basket(props) {
             if (basket.length < 1 || basket.find(({ quantity }) => quantity == 0))
                 return
             else {
-                var list = []
-                basket.forEach(({ id, quantity }) => {
-                    list = [...list, {product_id: id, quantity: quantity}]
-                });
-                axios.post("/baskets", {purchases: list})
                 navigation.navigate("Résumé")
             }
         } catch (error) {
-            Alert.alert("", error)
+            Alert.alert("😨 Error panier", "Veuillez re-éssayer dans quelques instants,\nIl se peut qu'un problème de connection soit le problème")
+            console.error(error)
         }
     }
     return (
