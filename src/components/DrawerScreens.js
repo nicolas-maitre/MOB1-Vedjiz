@@ -72,18 +72,13 @@ const basketStackScreen = ({ navigation }) => {
         }} />
         <basketStack.Screen name="Résumé" component={SummaryBasket} options={{
             title: "résumé du panier",
-            headerLeft: () => (
-                <TouchableOpacity style={{ paddingLeft: 10, paddingTop: 5 }} onPress={() => navigation.openDrawer()}>
-                    <Icon name='ios-menu' size={25} color='black' />
-                </TouchableOpacity>
-            )
         }} />
     </basketStack.Navigator>
 )};
 
 const Drawer = createDrawerNavigator();
 export const DrawerScreen = () => (
-    <Drawer.Navigator initialRouteName="Panier" //initialRouteName="Profil"
+    <Drawer.Navigator initialRouteName="Profil"
         drawerType="back"
         drawerContentOptions={{
             labelStyle: {
