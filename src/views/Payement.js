@@ -58,12 +58,26 @@ export default function Payement({ navigation }) {
                 </View>
 
                 <TouchableOpacity style={{ width: "100%", backgroundColor: "rgb(180, 180, 180)", borderRadius: 10, padding: 10 }}
-                    onPress={() => {
-                        console.log("WIP check envelope")
+                    onPress={async () => {
+                        // mon code peut-être fonctionnel
+                        var res;
+                        try{
+                            res = await axios.post('/payments',{key: envelopeNumber, amount: "abc"})
+                        }
+                        catch(error)
+                        {
+                            //I CAN'T dev because api return always 400 :D have a nice day
+                            console.log(error.response.status)
+                            if(error.response.status == 400)
+                                setIsGood(true)
+                        }
+                        // 
+
+
                         //if incorrect or existing message
                         //Alert.alert("Enveloppe incorrecte 🤯", "Veuillez vérifier que le numéro d'enveloppe saisie est correct ou n'est pas utilisé par une autre personne")
                         //else
-                        setIsGood(true)
+                        // setIsGood(true)
                     }}
                 >
                     <Text style={{ fontSize: 20, textAlign: "center" }}>Vérifier enveloppe</Text>
