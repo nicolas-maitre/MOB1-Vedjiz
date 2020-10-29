@@ -62,10 +62,10 @@ export default function Basket(props) {
             style={styles.background}
             blurRadius={1}
         >
-            <View>
+            <ScrollView>
                 <TotalPriceBasket />
                 <FlatList
-                    style={pickerList.length > 0 ? { height: Dimensions.get('window').height * 0.65 } : { height: Dimensions.get('window').height * 0.7 }}
+                    style={pickerList.length > 0 ? { height: Dimensions.get('window').height * 0.65 } : { }}
                     data={basket}
                     keyExtractor={(product) => product.id.toString()}
                     ListEmptyComponent={
@@ -86,8 +86,6 @@ export default function Basket(props) {
                         />
                     }
                 />
-            </View>
-            <View style={{ position: "absolute", bottom: 0, width: "100%" }}>
                 {pickerList.length > 0 ? (
                     <Picker
                         style={styles.picker}
@@ -108,7 +106,7 @@ export default function Basket(props) {
                 <TouchableOpacity style={[styles.container, styles.backgroundButtonPaid]} onPress={() => sendBasket()}>
                     <Text style={styles.text}>Résumé de la commande</Text>
                 </TouchableOpacity>
-            </View>
+            </ScrollView>
         </ImageBackground>
     )
 }

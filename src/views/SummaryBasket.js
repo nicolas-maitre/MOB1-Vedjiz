@@ -12,14 +12,7 @@ export default function Basket(props) {
     
     async function sendBasket() {
         try {
-                var list = []
-                basket.forEach(({ id, quantity }) => {
-                    list = [...list, { product_id: id, quantity: quantity }]
-                });
-                axios.post("/baskets", { purchases: list })
-                removeBasket()
-                navigation.navigate("Panier")
-                navigation.navigate("Profil")
+            navigation.navigate("payement")
         } catch (error) {
             Alert.alert("😨 Error panier", "Veuillez re-éssayer dans quelques instants,\nIl se peut qu'un problème de connection soit le problème")
         }
