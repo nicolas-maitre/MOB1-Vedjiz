@@ -16,6 +16,9 @@ export default function App() {
     async function fetchData()
     {
       let basket = JSON.parse(await AsyncStorage.getItem('@basket'))
+      if(basket == null){
+        basket = []
+      }
       setBasket(basket)     
     }
     fetchData()
