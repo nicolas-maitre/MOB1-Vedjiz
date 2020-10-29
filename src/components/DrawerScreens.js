@@ -10,7 +10,7 @@ import List from '../views/ListOfProducts';
 import Profil from '../views/Profil';
 import Basket from '../views/Basket';
 import SummaryBasket from '../views/SummaryBasket';
-import AsyncStorage from '@react-native-community/async-storage';
+import Payement from '../views/Payement';
 import { AuthContext } from './Context';
 
 const ProductsStack = createStackNavigator();
@@ -72,6 +72,9 @@ const basketStackScreen = ({ navigation }) => {
         }} />
         <basketStack.Screen name="Résumé" component={SummaryBasket} options={{
             title: "résumé du panier",
+        }} />        
+        <basketStack.Screen name="payement" component={Payement} options={{
+            title: "Payer",
         }} />
     </basketStack.Navigator>
 )};
