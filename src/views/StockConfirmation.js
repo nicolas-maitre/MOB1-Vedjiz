@@ -8,131 +8,13 @@ import { AuthContext } from '../components/Context';
 
 import Splash from './Splash';
 import { TextInput } from 'react-native-gesture-handler';
+
 axios.defaults.timeout = 500;
 
-export default function StockConfirmation({ navigation }) {
+export default function StockConfirmation({ route }) {
     const { signOut, userToken } = React.useContext(AuthContext);
-
-    const [isLoading, setIsLoading] = React.useState(true);
-    const [refreshing, setRefreshing] = React.useState(false);
-    const [error, setError] = React.useState(true);
-
-    const [products, setProducts] = React.useState([]);
-    const [productIndex, setProductIndex] = React.useState(0);
-    const [currentProductStock, setCurrentStock] = React.useState(null);
-    const [validatedStocks, setValidatedStocks] = React.useState([]);
-    // const [currentProduct, setCurrentProduct] = React.useState({})
-
-    React.useEffect(() => {
-        const unsubscribe = navigation.addListener('focus', async () => {
-            setIsLoading(true)
-            await getProducts()
-            setIsLoading(false)
-        });
-        return unsubscribe;
-    }, [navigation]);
-
-    async function getProducts() {
-        try {
-            setRefreshing(true)
-            var productsRes = await axios.get(`/products`)
-            setError(false)
-            startStockQuiz(productsRes.data.data);
-        }
-        catch (e) {
-            console.log(e.message)
-            Alert.alert("😵 Erreur de connexion", "Une erreur est survenue lors de la connexion!\nMerci de vérifier que vous ayez bien une connexion internet...")
-            setError(true)
-        }
-        finally {
-            setRefreshing(false)
-        }
-    }
-    if (isLoading) {
-        return <Splash />;
-    }
-    if (error) {
-        return (
-            <ImageBackground
-                source={require('../pictures/Moutains.jpg')}
-                style={styles.background}
-                blurRadius={1}
-            >
-                <ScrollView
-                    refreshControl={
-                        <RefreshControl
-                            refreshing={refreshing}
-                            onRefresh={getProducts}
-                        />
-                    }
-                >
-                    <Text style={styles.error}>Veuillez tirer vers le bas pour raffraîchir la page</Text>
-                </ScrollView>
-            </ImageBackground>
-        );
-    }
-
-    function startStockQuiz(newProducts) {
-        setProducts(newProducts);
-        setProductByIndex(0);
-    }
-
-    function setLastProduct(){
-        setProductByIndex(productIndex - 1)
-    }
-    function setNextProduct(){
-        setProductByIndex(productIndex + 1)
-    }
-
-    function setProductByIndex(index) {
-        if(products.length <= 0){
-            return;
-        }
-
-        //save current stock
-        if(currentProductStock !== null){
-            var newProducts = [...products];
-            newProducts[productIndex].stock = currentProductStock;
-            setProducts(newProducts);
-        }
-        setCurrentStock(null);
-
-        let increaseInd = index >= productIndex;
-
-        //finding a non validated index
-        let findIterations = 0 //safety
-        while((index < 0 || index >= products.length || validatedStocks.includes(index)) && findIterations < products.length){
-            //loop around
-            if (index >= (products.length))
-                index = 0;
-            if (index < 0)
-                index = products.length - 1;
-
-            //already validated
-            if(validatedStocks.includes(index)){
-                if(increaseInd)
-                    index++;
-                else
-                    index--;
-            }
-            findIterations++;
-        }
-
-        setProductIndex(index)
-    }
-    function confirmProductStock() {
-        setValidatedStocks([...validatedStocks, productIndex]); //add index to confirmed list
-        //no more items to confirm
-        if(validatedStocks.length >= products.length){
-            Alert.alert("every item has been validated! 👍")
-            return;
-        }
-        setNextProduct();
-    }
-
-    var currentProduct = products[productIndex];
+    const { products } = route.params;
     return (
-
         <ImageBackground
             source={require('../pictures/Moutains.jpg')}
             style={styles.background}
@@ -140,6 +22,8 @@ export default function StockConfirmation({ navigation }) {
         >
             <View style={styles.userBackground}>
                 <Text style={styles.title}>Confirmation</Text>
+                <Text>Products data:</Text>
+                <Text>{JSON.stringify(products)}</Text>
             </View>
         </ImageBackground>
     )
