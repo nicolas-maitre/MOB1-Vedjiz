@@ -12,6 +12,8 @@ import Basket from '../views/Basket';
 import SummaryBasket from '../views/SummaryBasket';
 import Payement from '../views/Payement';
 import { AuthContext } from './Context';
+import StockSelector from '../views/StockSelector';
+import StockConfirmation from '../views/StockConfirmation';
 
 const ProductsStack = createStackNavigator();
 const ProductsStackScreen = ({ navigation }) => (
@@ -78,7 +80,26 @@ const basketStackScreen = ({ navigation }) => {
         }} />
     </basketStack.Navigator>
 )};
-
+const stockStack = createStackNavigator();
+const stockStackScreen = ({ navigation }) => (
+    <stockStack.Navigator >
+        <stockStack.Screen name="Stock" component={StockSelector} options={{
+            title: "Stock",
+            headerLeft: () => (
+                <TouchableOpacity style={{ paddingLeft: 10, paddingTop: 5 }} onPress={() => navigation.openDrawer()}>
+                    <Icon name='ios-menu' size={25} color='black' />
+                </TouchableOpacity>
+            ),
+            headerRight: () => (
+                <TouchableOpacity style={{ paddingRight: 10, paddingTop: 5 }} onPress={() => navigation.navigate("Panier")}>
+                    <Icon name='basket' size={25} color='black' />
+                </TouchableOpacity>
+            )
+        }} />
+        <stockStack.Screen name="StockConfirmation" component={StockConfirmation}/>
+    </stockStack.Navigator>
+);
+var isAdmin = true;
 const Drawer = createDrawerNavigator();
 export const DrawerScreen = () => (
     <Drawer.Navigator initialRouteName="Profil"
@@ -94,5 +115,6 @@ export const DrawerScreen = () => (
         <Drawer.Screen name="Profil" component={profilStackScreen} />
         <Drawer.Screen name="Panier" component={basketStackScreen} />
         <Drawer.Screen name="Magasin" component={ProductsStackScreen} />
+        {isAdmin?<Drawer.Screen name="Stock" component={stockStackScreen} />:null}
     </Drawer.Navigator>
 );
